@@ -1,8 +1,8 @@
 package com.project.nakano.plantindex;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
+import org.apache.commons.collections4.map.MultiValueMap;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,20 +15,41 @@ import org.springframework.web.bind.annotation.RestController;
 public class SearchPlantsController {
 
 	private static final String minhasPlantas = "https://minhasplantas.com.br/plantas/";
-	private String docHtml = "";
+	private String pagination = "?page=/paginationCounter/&querystring_key=page";
+	private MultiValueMap<String, String> map = new MultiValueMap<String, String>();
+	private Document doc;
 
 	@GetMapping("/search")
-	public SearchResult search(@RequestParam(value = "categoria", defaultValue = "") String categoria) throws IOException {
+	public SearchResult search(@RequestParam(value = "categoria", defaultValue = "") String categoria)
+			throws IOException {
 		try {
-				Document doc = Jsoup.connect(categoria.isEmpty() ? minhasPlantas : minhasPlantas + "categorias/" + categoria).get();
-				Pattern patternElements = Pattern.compile("^(Name|Cat)$", Pattern.CASE_INSENSITIVE);
-				Elements entries = doc.getElementsByAttributeValueMatching("class", patternElements);
-				this.docHtml = entries.toString();
+			//Apagar o map antes de pesquisar
+			this.map.clear();
 			
-		} catch (HttpStatusException e) {				
+			//URL e contador da paginacao
+			String baseUrl = categoria.isEmpty() ? minhasPlantas : minhasPlantas + "categorias/" + categoria + "";
+			Integer paginationCounter = 1;
+
+			do {
+				// Paginacao da tela
+				String url = baseUrl + pagination.replaceAll("/paginationCounter/", paginationCounter.toString());
+				
+				this.doc = Jsoup.connect(url).get();
+				Elements key = this.doc.getElementsByClass("Cat");
+				Elements value = this.doc.getElementsByClass("Name");
+
+				for (int i = 0, l = key.size( ) <= value.size() ? key.size() : value.size(); i < l; i++) {
+					String keyString = key.get(i).text();
+					String valueString = value.get(i).text();
+					this.map.put(keyString, valueString);
+				}
+				paginationCounter++;
+		
+			// Paginar enquanto houver a classe endless_more OU até paginação 20 de limite
+			} while (!this.doc.getElementsByClass("endless_more").isEmpty() || paginationCounter > 20);
+		} catch (HttpStatusException e) {
 			System.out.println(e);
-			this.docHtml = "Falha"; 
 		}
-		return new SearchResult(this.docHtml);
+		return new SearchResult(this.map);
 	}
 }
