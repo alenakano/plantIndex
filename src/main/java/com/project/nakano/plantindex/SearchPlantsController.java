@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SearchPlantsController {
 
-	private static final String minhasPlantas = "https://minhasplantas.com.br/plantas/";
+	private final String minhasPlantas = "https://minhasplantas.com.br/plantas/";
 	private String pagination = "?page=/paginationCounter/&querystring_key=page";
 	private MultiValueMap<String, String> map = new MultiValueMap<String, String>();
 	private Document doc;
 
 	@GetMapping("/search")
-	public SearchResult search(@RequestParam(value = "categoria", defaultValue = "") String categoria)
+	public SearchedPlantsResult search(@RequestParam(value = "categoria", defaultValue = "") String categoria)
 			throws IOException {
 		try {
 			//Apagar o map antes de pesquisar
@@ -50,6 +50,7 @@ public class SearchPlantsController {
 		} catch (HttpStatusException e) {
 			System.out.println(e);
 		}
-		return new SearchResult(this.map);
+		return new SearchedPlantsResult(this.map);
 	}
+	
 }
