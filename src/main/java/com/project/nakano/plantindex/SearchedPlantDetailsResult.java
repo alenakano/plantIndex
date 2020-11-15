@@ -2,11 +2,10 @@ package com.project.nakano.plantindex;
 
 import org.apache.commons.collections4.map.MultiValueMap;
 
-public class SearchResult {
-	
+public class SearchedPlantDetailsResult {
 	private MultiValueMap<String, String> content = new MultiValueMap<String, String>();
 
-	public SearchResult(MultiValueMap<String, String> content) {
+	public SearchedPlantDetailsResult(MultiValueMap<String, String> content) {
 		this.content = content;
 	}
 
