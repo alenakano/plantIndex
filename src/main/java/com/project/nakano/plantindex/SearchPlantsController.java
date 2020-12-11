@@ -47,6 +47,7 @@ public class SearchPlantsController {
 		
 			// Paginar enquanto houver a classe endless_more OU até paginação 20 de limite
 			} while (!this.doc.getElementsByClass("endless_more").isEmpty() && paginationCounter <= 20);
+			
 		} catch (HttpStatusException e) {
 			System.out.println(e);
 		}
