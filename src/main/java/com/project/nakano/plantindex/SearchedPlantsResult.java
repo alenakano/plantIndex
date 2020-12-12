@@ -6,6 +6,9 @@ public class SearchedPlantsResult {
 	
 	private MultiValueMap<String, String> content = new MultiValueMap<String, String>();
 
+	public SearchedPlantsResult() {
+	}
+	
 	public SearchedPlantsResult(MultiValueMap<String, String> content) {
 		this.content = content;
 	}
@@ -17,4 +20,16 @@ public class SearchedPlantsResult {
 	public void setContent(String key, String value) {
 		this.content.put(key, value);
 	}
+	
+
+	public void setContent(MultiValueMap<String, String> content) {
+		this.content = content;
+	}
+
+	@Override
+	public String toString() {
+		return "SearchedPlantsResult [content=" + content + "]";
+	}
+	
+	
 }
