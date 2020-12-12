@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.nakano.plantindex.dao.CategoriaDAO;
+import com.project.nakano.plantindex.dao.PlantDetailsDAO;
 import com.project.nakano.plantindex.model.PlantDetails;
 
 @RestController
@@ -31,18 +31,19 @@ public class UpdateDatabaseController {
 	private List<PlantDetails> ListPlantDetails = new ArrayList<PlantDetails>();
 
 	@Autowired
-	private CategoriaDAO categoriaDAO;
+	private PlantDetailsDAO plantDetailsDAO;
 
 	@GetMapping("/updatedatabase")
 	public String updateDatase(@RequestParam(value = "categoria", defaultValue = "") String categoria)
 			throws IOException {
 
-		String status = "status";
+		String status = "Sucesso";
 
 		try {
 			this.searchPlantNames(categoria);
 		} catch (Exception e) {
-			System.out.println("[ERROR] - " + e);
+			e.printStackTrace();
+			status = "Falha";
 		}
 
 		this.plantNames.forEach(pl -> {
@@ -55,12 +56,15 @@ public class UpdateDatabaseController {
 			}
 		});
 
-		this.ListPlantDetails.forEach(act -> {
-			System.out.println();
-			System.out.println(act.toString()); 
-			System.out.println();
-		});
-
+		try {
+			this.ListPlantDetails.forEach(plt -> {
+				plantDetailsDAO.createPlant(plt);
+			}); 
+		} catch (Exception e) {
+			status = "Falha";
+			e.printStackTrace();
+		}
+		
 		return status;
 	}
 
@@ -156,26 +160,26 @@ public class UpdateDatabaseController {
 	private void setRecoveredPlantDetails(MultiValueMap<String, String> map) {	
 		if(!map.isEmpty()) {
 			this.ListPlantDetails.add(new PlantDetails(
-					map.get("Nome popular").toString(),
-					map.get("Outros nomes").toString(), 
-					map.get("Ordem").toString(), 
-					map.get("Floração").toString(), 
-					map.get("Gênero").toString(), 
-					map.get("Rega").toString(), 
-					map.get("Tamanho").toString(), 
-					map.get("Perfumada").toString(), 
-					map.get("Tribo").toString(), 
-					map.get("Família").toString(), 
-					map.get("Origem").toString(), 
-					map.get("Propagação").toString(), 
-					map.get("Subfamília").toString(), 
-					map.get("Categoria").toString(), 
-					map.get("Subtribo").toString(), 
-					map.get("Espécie").toString(), 
-					map.get("Iluminação").toString(), 
-					map.get("Plantio").toString(), 
-					map.get("infos").toString(), 
-					map.get("Frutos").toString()
+					map.get("Nome popular").toString().replaceAll("[\\[\\],]",""),
+					map.get("Outros nomes").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Ordem").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Floração").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Gênero").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Rega").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Tamanho").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Perfumada").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Tribo").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Família").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Origem").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Propagação").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Subfamília").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Categoria").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Subtribo").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Espécie").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Iluminação").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Plantio").toString().replaceAll("[\\[\\],]",""), 
+					map.get("infos").toString().replaceAll("[\\[\\],]",""), 
+					map.get("Frutos").toString().replaceAll("[\\[\\],]","")
 					)
 			);
 		}

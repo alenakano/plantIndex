@@ -1,7 +1,6 @@
 package com.project.nakano.plantindex;
 
 import org.apache.commons.collections4.map.MultiValueMap;
-import org.springframework.web.bind.annotation.RestController;
 
 public class SearchedPlantDetailsResult {
 

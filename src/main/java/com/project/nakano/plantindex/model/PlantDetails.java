@@ -3,10 +3,12 @@ package com.project.nakano.plantindex.model;
 import org.apache.commons.lang3.StringUtils;
 
 public class PlantDetails {
+
+	Integer id;
 	String nome;
 	String outrosNomes;
 	String ordem;
-	String floração;
+	String floracao;
 	String genero;
 	String rega;
 	String tamanho;
@@ -15,7 +17,7 @@ public class PlantDetails {
 	String familia;
 	String origem;
 	String propagacao;
-	String subfamília;
+	String subfamilia;
 	CategoriaEnum categoria;
 	String subtribo;
 	String especie;
@@ -34,7 +36,7 @@ public class PlantDetails {
 		this.nome = nome;
 		this.outrosNomes = outrosNomes;
 		this.ordem = ordem;
-		this.floração = floração;
+		this.floracao = floração;
 		this.genero = genero;
 		this.rega = rega;
 		this.tamanho = tamanho;
@@ -43,7 +45,7 @@ public class PlantDetails {
 		this.familia = familia;
 		this.origem = origem;
 		this.propagacao = propagacao;
-		this.subfamília = subfamília;
+		this.subfamilia = subfamília;
 		this.setCategoria(categoria);
 		this.subtribo = subtribo;
 		this.especie = especie;
@@ -52,7 +54,15 @@ public class PlantDetails {
 		this.texto = texto;
 		this.frutos = frutos;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	public PlantDetails(String nome) {
 		this.nome = nome;
 	}
@@ -80,12 +90,12 @@ public class PlantDetails {
 		this.ordem = ordem;
 	}
 	
-	public String getFloração() {
-		return floração;
+	public String getFloracao() {
+		return floracao;
 	}
 	
-	public void setFloração(String floração) {
-		this.floração = floração;
+	public void setFloracao(String floração) {
+		this.floracao = floração;
 	}
 	
 	public String getGenero() {
@@ -155,12 +165,12 @@ public class PlantDetails {
 		this.propagacao = propagacao;
 	}
 	
-	public String getSubfamília() {
-		return subfamília;
+	public String getSubfamilia() {
+		return subfamilia;
 	}
 	
-	public void setSubfamília(String subfamília) {
-		this.subfamília = subfamília;
+	public void setSubfamilia(String subfamília) {
+		this.subfamilia = subfamília;
 	}
 	
 	public int getCategoria() {
@@ -222,9 +232,9 @@ public class PlantDetails {
 	@Override
 	public String toString() {
 		return "PlantDetails [nome=" + nome + ", outrosNomes=" + outrosNomes + ", ordem=" + ordem + ", floração="
-				+ floração + ", genero=" + genero + ", rega=" + rega + ", tamanho=" + tamanho + ", perfumada="
+				+ floracao + ", genero=" + genero + ", rega=" + rega + ", tamanho=" + tamanho + ", perfumada="
 				+ perfumada + ", tribo=" + tribo + ", familia=" + familia + ", origem=" + origem + ", propagacao="
-				+ propagacao + ", subfamília=" + subfamília + ", categoria=" + categoria + ", subtribo=" + subtribo
+				+ propagacao + ", subfamília=" + subfamilia + ", categoria=" + categoria + ", subtribo=" + subtribo
 				+ ", especie=" + especie + ", iluminacao=" + iluminacao + ", plantio=" + plantio + ", texto=" + texto
 				+ ", frutos=" + frutos + "]";
 	}
