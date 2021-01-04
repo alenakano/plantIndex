@@ -13,15 +13,16 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @Configuration
 @ComponentScan("com.project.nakano.plantindex.spring")
 @PropertySource("classpath:database.properties")
+
 public class AppConfig {
 
 	@Autowired
 	Environment environment;
 
-	private final String URL = "database.plantindex.url";
-	private final String USER = "database.plantindex.user";
-	private final String DRIVER = "database.plantindex.driver";
-	private final String PASSWORD = "database.plantindex.password";
+	private static final String URL = "database.plantindex.url";
+	private static final String USER = "database.plantindex.user";
+	private static final String DRIVER = "database.plantindex.driver";
+	private static final String PASSWORD = "database.plantindex.password";
 
 	@Bean
 	DataSource dataSource() {
