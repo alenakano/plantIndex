@@ -1,15 +1,11 @@
 package com.project.nakano.plantindex;
 
 import java.io.IOException;
-import java.util.function.UnaryOperator;
 
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.TextNode;
-import org.jsoup.parser.Tag;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.springframework.web.bind.annotation.GetMapping;
