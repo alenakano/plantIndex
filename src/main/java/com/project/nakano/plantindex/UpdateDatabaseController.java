@@ -58,10 +58,6 @@ public class UpdateDatabaseController {
 			}
 		});
 
-		for (PlantDetails plantDetails : listPlantDetails) {
-			System.out.println("RESULTADO -> " + plantDetails.toString());
-		}
-		
 		// Salva na base de dados
 		try {
 			listPlantDetails.forEach(plt -> {
