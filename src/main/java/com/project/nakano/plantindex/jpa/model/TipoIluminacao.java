@@ -1,17 +1,17 @@
 package com.project.nakano.plantindex.jpa.model;
 
 public enum TipoIluminacao {
-	SOMBRA(0),
-	MEIASOMBRA(1),
-	SOLPLENO(2);
+	SOMBRA(1L),
+	MEIASOMBRA(2L),
+	SOLPLENO(3L);
 	
-	private final int value;
+	private final Long value;
 	
-	TipoIluminacao(int value){
+	TipoIluminacao(Long value){
 		this.value = value;
 	}
 	
-	public int getValue(){
+	public Long getValue(){
 		return this.value;
 	}
 }

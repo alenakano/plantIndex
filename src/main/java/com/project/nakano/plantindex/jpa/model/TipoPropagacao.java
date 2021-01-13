@@ -1,19 +1,19 @@
 package com.project.nakano.plantindex.jpa.model;
 
 public enum TipoPropagacao {
-	ESTACA(0),
-	TOUCEIRA(1),
-	MUDA(2),
-	SEMENTE(3),
-	BULBO(4);
+	ESTACA(1L),
+	TOUCEIRA(2L),
+	MUDA(3L),
+	SEMENTE(4L),
+	BULBO(5L);
 	
-	private final int value;
+	private final Long value;
 	
-	TipoPropagacao(int value){
+	TipoPropagacao(Long value){
 		this.value = value;
 	}
 	
-	public int getValue(){
+	public Long getValue(){
 		return this.value;
 	}
 }

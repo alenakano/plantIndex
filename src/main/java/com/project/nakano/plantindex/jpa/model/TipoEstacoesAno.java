@@ -1,20 +1,20 @@
 package com.project.nakano.plantindex.jpa.model;
 
 public enum TipoEstacoesAno {
-	PRIMAVERA(1),
-	VERAO(2),
-	OUTONO(3),
-	INVERNO(4),
-	ANOTODO(5),
-	SEM(6);
+	PRIMAVERA(1L),
+	VERAO(2L),
+	OUTONO(3L),
+	INVERNO(4L),
+	ANOTODO(5L),
+	SEM(6L);
 	
-	private final int value;
+	private final Long value;
 	
-	TipoEstacoesAno(int value){
+	TipoEstacoesAno(Long value){
 		this.value = value;
 	}
 	
-	public int getValue(){
+	public Long getValue(){
 		return this.value;
 	}
 }

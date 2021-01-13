@@ -2,31 +2,31 @@ package com.project.nakano.plantindex.jpa.model;
 
 public enum TipoCategoria {
 	
-	AQUATICAS(1),
-	ARBUSTOS(2),
-	ARVORES(3),
-	BROMELIAS(4),
-	CACTOS(5),
-	FLORES(6),
-	FOLHAGENS(7),
-	FORRACOES(8),
-	FRUTIFERAS(9),
-	GRAOS(10),
-	HORTALICAS(11),
-	ORQUIDEAS(12),
-	PALMEIRAS(13),
-	PANCS(14),
-	SAMAMBAIAS(15),
-	SUCULENTAS(16),
-	TREPADEIRAS(17);
+	AQUATICAS(1L),
+	ARBUSTOS(2L),
+	ARVORES(3L),
+	BROMELIAS(4L),
+	CACTOS(5L),
+	FLORES(6L),
+	FOLHAGENS(7L),
+	FORRACOES(8L),
+	FRUTIFERAS(9L),
+	GRAOS(10L),
+	HORTALICAS(11L),
+	ORQUIDEAS(12L),
+	PALMEIRAS(13L),
+	PANCS(14L),
+	SAMAMBAIAS(15L),
+	SUCULENTAS(16L),
+	TREPADEIRAS(17L);
 	
-	private final int value;
+	private final Long value;
 	
-	TipoCategoria(int value){
+	TipoCategoria(Long value){
 		this.value = value;
 	}
 	
-	public int getValue(){
+	public Long getValue(){
 		return this.value;
 	}
 }

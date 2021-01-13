@@ -2,115 +2,125 @@ package com.project.nakano.plantindex.jpa.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.springframework.data.annotation.Id;
-
 @Entity
-@Table(name = "table_name", uniqueConstraints={@UniqueConstraint(columnNames ={"id", "nome"})})
+@Table(name = "plant_details", uniqueConstraints={@UniqueConstraint(columnNames ={"id", "nome"})})
 public class PlantDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-	
-	@OneToOne
+
+//	@Column(unique=true)
 	String nome;
 
 	@ManyToMany
-	List<String> outrosNomes;
+	@JoinTable(
+	  joinColumns = @JoinColumn(name = "plant_details_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "outro_nome_id")
+	  )
+	List<OutroNome> outrosNomes;
 	
-	@ManyToOne
 	String ordem;
-	
-	@Enumerated(EnumType.STRING)
+
 	@ManyToMany
-	List<TipoEstacoesAno> floracao;
+	@JoinTable(
+	  joinColumns = @JoinColumn(name = "plant_details_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "estacoes_ano_id")
+	  )
+	List<EstacoesAno> floracao;
 	
-	@ManyToOne
 	String genero;
 	
 	@Enumerated(EnumType.STRING)
-	@ManyToOne
 	TipoRega rega;
 	
 	String tamanho;
 	
-	@ManyToOne
 	Boolean perfumada;
 	
-	@ManyToOne
 	String tribo;
 	
-	@ManyToOne
 	String familia;
 	
 	@ManyToMany
-	List<String> origem;
-	
-	@Enumerated(EnumType.STRING)
+	@JoinTable(
+			  joinColumns = @JoinColumn(name = "plant_details_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "origem_id")
+			  )
+	List<Origem> origem;
+
 	@ManyToMany
-	List<TipoPropagacao> propagacao;
+	@JoinTable(
+			  joinColumns = @JoinColumn(name = "plant_details_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "propagacao_id")
+			  )
+	List<Propagacao> propagacao;
 	
-	@ManyToOne
 	String subFamilia;
-	
-	@Enumerated(EnumType.STRING)
-	@OneToOne
-	TipoCategoria categoria;
-	
+
 	@ManyToOne
+	@JoinColumn(name = "categoria")
+	Categoria categoria;
+	
 	String subtribo;
 	
-	@OneToOne
 	String especie;
 	
-	@Enumerated(EnumType.STRING)
 	@ManyToMany
-	List<TipoIluminacao> iluminacao;
-	
-	@Enumerated(EnumType.STRING)
+	@JoinTable(
+			  joinColumns = @JoinColumn(name = "plant_details_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "iluminacao_id")
+			  )
+	List<Iluminacao> iluminacao;
+
 	@ManyToMany
-	List<TipoEstacoesAno> plantio;
+	@JoinTable(
+			  joinColumns = @JoinColumn(name = "plant_details_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "estacoes_ano_id")
+			  )
+	List<EstacoesAno> plantio;
 	
-	@OneToOne
+	@Column(name="texto",columnDefinition="LONGTEXT")
 	String texto;
 	
-	@ManyToOne
 	Boolean frutoComestivel;
 
 	public PlantDetails() {
-		super();
 	}
 
 	public PlantDetails(
-				String nome, List<String> 
-				outrosNomes, 
+				String nome, 
+				List<OutroNome> outrosNomes, 
 				String ordem, 
-				List<TipoEstacoesAno> floracao,
+				List<EstacoesAno> floracao,
 				String genero, 
 				TipoRega rega, 
 				String tamanho, 
 				Boolean perfumada, 
 				String tribo, 
 				String familia,
-				List<String> origem, 
-				List<TipoPropagacao> propagacao, 
+				List<Origem> origem, 
+				List<Propagacao> propagacao, 
 				String subFamilia, 
-				TipoCategoria categoria,
+				Categoria categoria,
 				String subTribo, 
 				String especie, 
-				List<TipoIluminacao> iluminacao, 
-				List<TipoEstacoesAno> plantio, 
+				List<Iluminacao> iluminacao, 
+				List<EstacoesAno> plantio, 
 				String infos,
 				Boolean frutoComestivel
 			) {
@@ -152,11 +162,11 @@ public class PlantDetails {
 		this.nome = nome;
 	}
 
-	public List<String> getOutrosNomes() {
+	public List<OutroNome> getOutrosNomes() {
 		return outrosNomes;
 	}
 
-	public void setOutrosNomes(List<String> outrosNomes) {
+	public void setOutrosNomes(List<OutroNome> outrosNomes) {
 		this.outrosNomes = outrosNomes;
 	}
 
@@ -168,11 +178,11 @@ public class PlantDetails {
 		this.ordem = ordem;
 	}
 
-	public List<TipoEstacoesAno> getFloracao() {
+	public List<EstacoesAno> getFloracao() {
 		return floracao;
 	}
 
-	public void setFloracao(List<TipoEstacoesAno> floracao) {
+	public void setFloracao(List<EstacoesAno> floracao) {
 		this.floracao = floracao;
 	}
 
@@ -224,19 +234,19 @@ public class PlantDetails {
 		this.familia = familia;
 	}
 
-	public List<String> getOrigem() {
+	public List<Origem> getOrigem() {
 		return origem;
 	}
 
-	public void setOrigem(List<String> origem) {
+	public void setOrigem(List<Origem> origem) {
 		this.origem = origem;
 	}
 
-	public List<TipoPropagacao> getPropagacao() {
+	public List<Propagacao> getPropagacao() {
 		return propagacao;
 	}
 
-	public void setPropagacao(List<TipoPropagacao> propagacao) {
+	public void setPropagacao(List<Propagacao> propagacao) {
 		this.propagacao = propagacao;
 	}
 
@@ -248,11 +258,11 @@ public class PlantDetails {
 		this.subFamilia = subFamilia;
 	}
 
-	public int getCategoria() {
-		return categoria.getValue();
+	public Categoria getCategoria() {
+		return this.categoria;
 	}
 
-	public void setCategoria(TipoCategoria categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 
@@ -272,19 +282,19 @@ public class PlantDetails {
 		this.especie = especie;
 	}
 
-	public List<TipoIluminacao> getIluminacao() {
+	public List<Iluminacao> getIluminacao() {
 		return iluminacao;
 	}
 
-	public void setIluminacao(List<TipoIluminacao> iluminacao) {
+	public void setIluminacao(List<Iluminacao> iluminacao) {
 		this.iluminacao = iluminacao;
 	}
 
-	public List<TipoEstacoesAno> getPlantio() {
+	public List<EstacoesAno> getPlantio() {
 		return plantio;
 	}
 
-	public void setPlantio(List<TipoEstacoesAno> plantio) {
+	public void setPlantio(List<EstacoesAno> plantio) {
 		this.plantio = plantio;
 	}
 

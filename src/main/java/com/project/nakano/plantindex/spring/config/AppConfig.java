@@ -16,21 +16,21 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 public class AppConfig {
 
-	@Autowired
-	Environment environment;
-
-	private static final String URL = "database.plantindex.url";
-	private static final String USER = "database.plantindex.user";
-	private static final String DRIVER = "database.plantindex.driver";
-	private static final String PASSWORD = "database.plantindex.password";
-
-	@Bean
-	DataSource dataSource() {
-		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-		driverManagerDataSource.setUrl(environment.getProperty(URL));
-		driverManagerDataSource.setUsername(environment.getProperty(USER));
-		driverManagerDataSource.setPassword(environment.getProperty(PASSWORD));
-		driverManagerDataSource.setDriverClassName(environment.getProperty(DRIVER));
-		return driverManagerDataSource;
-	}
+//	@Autowired
+//	Environment environment;
+//
+//	private static final String URL = "database.plantindex.url";
+//	private static final String USER = "database.plantindex.user";
+//	private static final String DRIVER = "database.plantindex.driver";
+//	private static final String PASSWORD = "database.plantindex.password";
+//
+//	@Bean
+//	DataSource dataSource() {
+//		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+//		driverManagerDataSource.setUrl(environment.getProperty(URL));
+//		driverManagerDataSource.setUsername(environment.getProperty(USER));
+//		driverManagerDataSource.setPassword(environment.getProperty(PASSWORD));
+//		driverManagerDataSource.setDriverClassName(environment.getProperty(DRIVER));
+//		return driverManagerDataSource;
+//	}
 }
