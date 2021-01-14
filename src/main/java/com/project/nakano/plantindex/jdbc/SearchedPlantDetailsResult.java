@@ -1,15 +1,15 @@
-package com.project.nakano.plantindex;
+package com.project.nakano.plantindex.jdbc;
 
 import org.apache.commons.collections4.map.MultiValueMap;
 
-public class SearchedPlantsResult {
-	
+public class SearchedPlantDetailsResult {
+
 	private MultiValueMap<String, String> content = new MultiValueMap<String, String>();
 
-	public SearchedPlantsResult() {
+	public SearchedPlantDetailsResult() {
 	}
 	
-	public SearchedPlantsResult(MultiValueMap<String, String> content) {
+	public SearchedPlantDetailsResult(MultiValueMap<String, String> content) {
 		this.content = content;
 	}
 
@@ -21,15 +21,8 @@ public class SearchedPlantsResult {
 		this.content.put(key, value);
 	}
 	
-
-	public void setContent(MultiValueMap<String, String> content) {
-		this.content = content;
-	}
-
 	@Override
 	public String toString() {
-		return "SearchedPlantsResult [content=" + content + "]";
+		return "SearchedPlantDetailsResult [content=" + content.toString() + "]";
 	}
-	
-	
 }

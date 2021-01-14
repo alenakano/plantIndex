@@ -1,4 +1,4 @@
-package com.project.nakano.plantindex.model;
+package com.project.nakano.plantindex.jdbc.model;
 
 import org.apache.commons.lang3.StringUtils;
 

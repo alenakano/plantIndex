@@ -1,4 +1,4 @@
-package com.project.nakano.plantindex;
+package com.project.nakano.plantindex.jdbc;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.nakano.plantindex.dao.PlantDetailsDAO;
-import com.project.nakano.plantindex.model.PlantDetails;
+import com.project.nakano.plantindex.jdbc.dao.PlantDetailsDAO;
+import com.project.nakano.plantindex.jdbc.model.PlantDetails;
 
 @RestController
 public class UpdateDatabaseController {

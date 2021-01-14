@@ -1,4 +1,4 @@
-package com.project.nakano.plantindex;
+package com.project.nakano.plantindex.jdbc;
 
 import java.io.IOException;
 

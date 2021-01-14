@@ -1,9 +1,9 @@
 package com.project.nakano.plantindex.jpa;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.nakano.plantindex.jpa.model.Iluminacao;
 
-public interface IluminacaoRepository extends CrudRepository<Iluminacao, Long> {
+public interface IluminacaoRepository extends JpaRepository<Iluminacao, Long> {
 
 }

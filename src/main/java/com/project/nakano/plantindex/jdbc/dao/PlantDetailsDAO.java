@@ -1,15 +1,16 @@
-package com.project.nakano.plantindex.dao;
+package com.project.nakano.plantindex.jdbc.dao;
 
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.project.nakano.plantindex.model.PlantDetails;
-import com.project.nakano.plantindex.model.PlantDetailsMapper;
+import com.project.nakano.plantindex.jdbc.model.PlantDetails;
+import com.project.nakano.plantindex.jdbc.model.PlantDetailsMapper;
 
 @Component
 public class PlantDetailsDAO {
@@ -25,8 +26,8 @@ public class PlantDetailsDAO {
 			+ ") values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	@Autowired
-	public PlantDetailsDAO(DataSource dataSource) {
-		jdbcTemplate = new JdbcTemplate(dataSource);
+	public PlantDetailsDAO(@Qualifier("jdbc-db") DataSource jdbcDataSource) {
+		jdbcTemplate = new JdbcTemplate(jdbcDataSource);
 	}
 
 	public PlantDetails getPlantsByName(String nome) {
