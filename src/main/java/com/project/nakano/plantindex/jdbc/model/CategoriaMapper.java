@@ -1,4 +1,4 @@
-package com.project.nakano.plantindex.model;
+package com.project.nakano.plantindex.jdbc.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

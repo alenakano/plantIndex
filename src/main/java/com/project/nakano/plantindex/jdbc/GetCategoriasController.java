@@ -1,11 +1,11 @@
-package com.project.nakano.plantindex;
+package com.project.nakano.plantindex.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.nakano.plantindex.dao.CategoriaDAO;
-import com.project.nakano.plantindex.model.Categoria;
+import com.project.nakano.plantindex.jdbc.dao.CategoriaDAO;
+import com.project.nakano.plantindex.jdbc.model.Categoria;
 
 @RestController
 public class GetCategoriasController {
