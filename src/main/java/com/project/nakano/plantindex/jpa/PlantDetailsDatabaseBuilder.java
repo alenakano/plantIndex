@@ -22,45 +22,45 @@ import com.project.nakano.plantindex.jpa.model.TipoRega;
 public abstract class PlantDetailsDatabaseBuilder {
 	
 	PlantDetails setRecoveredPlantDetails(MultiValueMap<String, String> map) {
-		String nome = ((ArrayList<String>) map.get("Nome popular")).get(0);
+		String nome = this.extractStringFromMap(map, "Nome popular");
 
 		List<OutroNome> outrosNomes = this.outroNomeParser((ArrayList<String>) map.get("Outros nomes"));
 
-		String ordem = ((ArrayList<String>) map.get("Ordem")).get(0);
+		String ordem = this.extractStringFromMap(map, "Ordem");
 
-		List<EstacoesAno> floracao = this.estacoesAnoParser(((ArrayList<String>) map.get("Floração")).get(0));
+		List<EstacoesAno> floracao = this.estacoesAnoParser(this.extractStringFromMap(map, "Floração"));
 
-		String genero = ((ArrayList<String>) map.get("Gênero")).get(0);
+		String genero = this.extractStringFromMap(map, "Gênero");
 
-		TipoRega rega = this.regaParser(((ArrayList<String>) map.get("Rega")).get(0));
+		TipoRega rega = this.regaParser(this.extractStringFromMap(map, "Rega"));
 
-		String tamanho = ((ArrayList<String>) map.get("Tamanho")).get(0);
+		String tamanho = this.extractStringFromMap(map,"Tamanho");
 
-		Boolean perfumada = this.setPerfumada(((ArrayList<String>) map.get("Perfumada")).get(0));
+		Boolean perfumada = this.setPerfumada(this.extractStringFromMap(map, "Perfumada"));
 
-		String tribo = ((ArrayList<String>) map.get("Tribo")).get(0);
+		String tribo = this.extractStringFromMap(map, "Tribo");
 
-		String familia = ((ArrayList<String>) map.get("Família")).get(0);
+		String familia = this.extractStringFromMap(map,"Família");
 
 		List<Origem> origem = this.origemParser((ArrayList<String>) map.get("Origem"));
 	
-		List<Propagacao> propagacao = this.propagacaoParser(((ArrayList<String>) map.get("Propagação")).get(0));
+		List<Propagacao> propagacao = this.propagacaoParser(this.extractStringFromMap(map, "Propagação"));
 
-		String subFamilia = ((ArrayList<String>) map.get("Subfamília")).get(0);
+		String subFamilia = this.extractStringFromMap(map, "Subfamília");
 
-		Categoria categoria = this.categoriaParser(((ArrayList<String>) map.get("Categoria")).get(0));
+		Categoria categoria = this.categoriaParser(this.extractStringFromMap(map, "Categoria"));
 
-		String subTribo = ((ArrayList<String>) map.get("Subtribo")).get(0);
+		String subTribo = this.extractStringFromMap(map, "Subtribo");
 
-		String especie = ((ArrayList<String>) map.get("Espécie")).get(0);
+		String especie = this.extractStringFromMap(map, "Espécie");
 
-		List<Iluminacao> iluminacao = this.iluminacaoParser(((ArrayList<String>) map.get("Iluminação")).get(0));
+		List<Iluminacao> iluminacao = this.iluminacaoParser(this.extractStringFromMap(map, "Iluminação"));
 	
-		List<EstacoesAno> plantio = this.estacoesAnoParser(((ArrayList<String>) map.get("Plantio")).get(0));
+		List<EstacoesAno> plantio = this.estacoesAnoParser(this.extractStringFromMap(map, "Plantio"));
 
-		String infos = ((ArrayList<String>) map.get("infos")).get(0);
+		String infos = this.extractStringFromMap(map, "infos");
 
-		Boolean frutoComestivel = setFrutoComestivel(((ArrayList<String>) map.get("Frutos")).get(0));
+		Boolean frutoComestivel = setFrutoComestivel(this.extractStringFromMap(map, "Frutos"));
 
 		return new PlantDetails(
 					nome,
@@ -84,6 +84,10 @@ public abstract class PlantDetailsDatabaseBuilder {
 					infos,
 					frutoComestivel
 				);
+	}
+	
+	private String extractStringFromMap(MultiValueMap<String, String> map, String key) {
+		return ((ArrayList<String>) map.get(key)).get(0);
 	}
 
 	private List<OutroNome> outroNomeParser(ArrayList<String> outrosNomes) {

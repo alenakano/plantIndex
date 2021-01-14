@@ -6,8 +6,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 //@Table(name = "propagacao", uniqueConstraints={@UniqueConstraint(columnNames ={"id", "tipoPropagacao"})})

@@ -22,6 +22,11 @@ import org.springframework.transaction.PlatformTransactionManager;
   transactionManagerRef = "jpaTransactionManager")
 public class PersistenceJpaConfiguration {
 	
+	private static final String DIALECT = "org.hibernate.dialect.MySQL8Dialect";
+	private static final String DDL = "update";
+	private static final String FORMAT = "true";
+	private static final String SHOWSQL = "true";
+	
     @Primary
     @Bean(name="jpaDataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
@@ -39,10 +44,10 @@ public class PersistenceJpaConfiguration {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         HashMap<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.format_sql", "true");
-        properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.dialect", DIALECT);
+        properties.put("hibernate.hbm2ddl.auto", DDL);
+        properties.put("hibernate.format_sql", FORMAT);
+        properties.put("hibernate.show_sql", SHOWSQL);
         em.setJpaPropertyMap(properties);
 
         return em;
