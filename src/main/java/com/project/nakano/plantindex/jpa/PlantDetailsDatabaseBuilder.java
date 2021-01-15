@@ -1,6 +1,7 @@
 package com.project.nakano.plantindex.jpa;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections4.map.MultiValueMap;
@@ -24,7 +25,7 @@ public abstract class PlantDetailsDatabaseBuilder {
 	PlantDetails setRecoveredPlantDetails(MultiValueMap<String, String> map) {
 		String nome = this.extractStringFromMap(map, "Nome popular");
 
-		List<OutroNome> outrosNomes = this.outroNomeParser((ArrayList<String>) map.get("Outros nomes"));
+		List<OutroNome> outrosNomes = this.outroNomeParser((ArrayList<String>) map.getCollection("Outros nomes"));
 
 		String ordem = this.extractStringFromMap(map, "Ordem");
 
@@ -42,7 +43,7 @@ public abstract class PlantDetailsDatabaseBuilder {
 
 		String familia = this.extractStringFromMap(map,"Família");
 
-		List<Origem> origem = this.origemParser((ArrayList<String>) map.get("Origem"));
+		List<Origem> origem = this.origemParser((ArrayList<String>) map.getCollection("Origem"));
 	
 		List<Propagacao> propagacao = this.propagacaoParser(this.extractStringFromMap(map, "Propagação"));
 
@@ -87,7 +88,7 @@ public abstract class PlantDetailsDatabaseBuilder {
 	}
 	
 	private String extractStringFromMap(MultiValueMap<String, String> map, String key) {
-		return ((ArrayList<String>) map.get(key)).get(0);
+		return Arrays.toString(map.getCollection(key).toArray(new String[0]));
 	}
 
 	private List<OutroNome> outroNomeParser(ArrayList<String> outrosNomes) {
