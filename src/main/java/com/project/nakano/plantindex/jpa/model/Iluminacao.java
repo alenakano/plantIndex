@@ -49,5 +49,10 @@ public class Iluminacao {
 	public void setTipoIluminacao(TipoIluminacao tipoIluminacao) {
 		this.tipoIluminacao = tipoIluminacao;
 	}
+
+	@Override
+	public String toString() {
+		return "Iluminacao [id=" + id + ", tipoIluminacao=" + tipoIluminacao + "]";
+	}
 	
 }

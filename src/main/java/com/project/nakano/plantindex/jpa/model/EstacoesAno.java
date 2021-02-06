@@ -49,5 +49,10 @@ public class EstacoesAno {
 	public void setEstacao(TipoEstacoesAno estacao) {
 		this.tipoEstacao = estacao;
 	}
+
+	@Override
+	public String toString() {
+		return "EstacoesAno [id=" + id + ", tipoEstacao=" + tipoEstacao + "]";
+	}
 	
 }

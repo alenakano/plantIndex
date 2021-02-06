@@ -13,6 +13,9 @@ public class OutroNome {
 
 	private String nome;
 	
+	@Deprecated
+	public OutroNome(){}
+	
 	public OutroNome(String outroNome) {
 		this.nome = outroNome;
 	}
@@ -33,4 +36,11 @@ public class OutroNome {
 		this.nome = outroNome;
 	}
 
+	@Override
+	public String toString() {
+		return "OutroNome [id=" + id + ", nome=" + nome + "]";
+	}
+
+	
+	
 }
