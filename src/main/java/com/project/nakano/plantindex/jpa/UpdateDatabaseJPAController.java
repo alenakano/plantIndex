@@ -3,6 +3,7 @@ package com.project.nakano.plantindex.jpa;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,8 +85,15 @@ public class UpdateDatabaseJPAController extends PlantDetailsDatabaseBuilder {
 			}
 		});
 		
-		plantDetailsList.forEach(plant -> {		
-			plantRepository.save(plant);
+		plantDetailsList.forEach(plant -> {
+			PlantDetails p = plantRepository.findByNome(plant.getNome());
+			// Se já existir, atualiza. Caso não exista, salva
+			if(Objects.isNull(p)) {
+				plantRepository.save(plant);
+			} else {
+				plant.setId(p.getId());
+				plantRepository.save(plant);
+			}
 		});
 
 		return status;
@@ -129,7 +137,14 @@ public class UpdateDatabaseJPAController extends PlantDetailsDatabaseBuilder {
 	public void insertInOrigemTable(PlantDetails plantDetails) {
 		List<Origem> nomes = plantDetails.getOrigem();
 		for (Origem origem : nomes) {
-				origemRepository.save(origem);
+			Origem or = origemRepository.findByNome(origem.getOrigem());
+				if(Objects.isNull(or)) {
+					origemRepository.save(origem);
+				} else {
+					origem.setId(or.getId());
+					origemRepository.save(origem);
+				}
+				
 		}
 	}
 	
@@ -144,7 +159,14 @@ public class UpdateDatabaseJPAController extends PlantDetailsDatabaseBuilder {
 	public void insertInOutroNomeTable(PlantDetails plant) {
 		List<OutroNome> nomes = plant.getOutrosNomes();
 		for (OutroNome outroNome : nomes) {
+			OutroNome nome = outroNomeRepository.findByNome(outroNome.getOutroNome());
+			if(Objects.isNull(nome)) { 
 				outroNomeRepository.save(outroNome);
+			} else {
+				outroNome.setId(nome.getId());
+				outroNomeRepository.save(outroNome);
+			}
+				
 		}
 	}
 	

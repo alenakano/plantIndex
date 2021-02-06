@@ -1,8 +1,8 @@
 package com.project.nakano.plantindex.jpa;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
@@ -88,17 +88,21 @@ public abstract class PlantDetailsDatabaseBuilder {
 	}
 	
 	private String extractStringFromMap(MultiValueMap<String, String> map, String key) {
-		return Arrays.toString(map.getCollection(key).toArray(new String[0]));
+		return map.getCollection(key).toArray(new String[0])[0];
 	}
 
 	private List<OutroNome> outroNomeParser(ArrayList<String> outrosNomes) {
 
 		List<OutroNome> names = new ArrayList<>();
-		if (outrosNomes != null && !outrosNomes.isEmpty()) {
+		if (!Objects.isNull(outrosNomes)) {
 			outrosNomes.forEach(s -> {
 				String[] namesSplitted = s.split(", ");
 				for (String name : namesSplitted) {
-					names.add(new OutroNome(name));
+					if (!name.isEmpty()) { 
+						names.add(new OutroNome(name));
+					} else {
+						names.add(new OutroNome("nenhum"));
+					}
 				}
 			});
 		} else {
@@ -110,7 +114,7 @@ public abstract class PlantDetailsDatabaseBuilder {
 	private List<Origem> origemParser(ArrayList<String> origem) {
 
 		List<Origem> names = new ArrayList<>();
-		if (origem != null && !origem.isEmpty()) {
+		if (!Objects.isNull(origem)) {
 			origem.forEach(s -> {
 				String[] namesSplitted = s.replace(" e ", ", ").split(", ");
 				for (String name : namesSplitted) {

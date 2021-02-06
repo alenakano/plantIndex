@@ -4,7 +4,7 @@ import org.apache.commons.collections4.map.MultiValueMap;
 
 public class SearchedPlantDetailsResult {
 
-	private MultiValueMap<String, String> content = new MultiValueMap<String, String>();
+	private MultiValueMap<String, String> content = new MultiValueMap<>();
 
 	public SearchedPlantDetailsResult() {
 	}
