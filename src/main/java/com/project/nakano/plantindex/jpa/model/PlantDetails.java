@@ -24,7 +24,7 @@ public class PlantDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 
-//	@Column(unique=true)
+	@Column(unique=true)
 	String nome;
 
 	@ManyToMany
@@ -322,6 +322,15 @@ public class PlantDetails {
 				+ propagacao + ", subfamília=" + subFamilia + ", categoria=" + categoria + ", subtribo=" + subtribo
 				+ ", especie=" + especie + ", iluminacao=" + iluminacao + ", plantio=" + plantio + ", texto=" + texto
 				+ ", frutos=" + frutoComestivel + "]";
+	}
+	
+	public String toStringHTML() {
+		return "<h1>" + nome.toUpperCase() + "</h1><h3>nome</h3>" + nome + "<br/><h3>outrosNomes</h3>" + outrosNomes + "<br/><h3>ordem</h3>" + ordem + "<br/><h3>floracao</h3>"
+				+ floracao + "<br/><h3>genero</h3>" + genero + "<br/><h3>rega</h3>" + rega + "<br/><h3>tamanho</h3>" + tamanho + "<br/><h3>perfumada</h3>"
+				+ perfumada + "<br/><h3>tribo</h3>" + tribo + "<br/><h3>familia</h3>" + familia + "<br/><h3>origem</h3>" + origem + "<br/><h3>propagacao</h3>"
+				+ propagacao + "<br/><h3>subfamília</h3>" + subFamilia + "<br/><h3>categoria</h3>" + categoria + "<br/><h3>subtribo</h3>" + subtribo
+				+ "<br/><h3>especie</h3>" + especie + "<br/><h3>iluminacao</h3>" + iluminacao + "<br/><h3>plantio</h3>" + plantio 
+				+ "<br/><h3>frutos</h3>" + frutoComestivel + "<br/><br/><h1>TEXTO</h1>" + texto;
 	}
 
 }
