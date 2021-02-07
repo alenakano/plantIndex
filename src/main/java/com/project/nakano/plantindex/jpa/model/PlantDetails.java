@@ -39,9 +39,9 @@ public class PlantDetails {
 	@ManyToMany
 	@JoinTable(
 	  joinColumns = @JoinColumn(name = "plant_details_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "estacoes_ano_id")
+	  inverseJoinColumns = @JoinColumn(name = "floracao_id")
 	  )
-	List<EstacoesAno> floracao;
+	List<Floracao> floracao;
 	
 	String genero;
 	
@@ -90,9 +90,9 @@ public class PlantDetails {
 	@ManyToMany
 	@JoinTable(
 			  joinColumns = @JoinColumn(name = "plant_details_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "estacoes_ano_id")
+			  inverseJoinColumns = @JoinColumn(name = "plantio_id")
 			  )
-	List<EstacoesAno> plantio;
+	List<Plantio> plantio;
 	
 	@Column(name="texto",columnDefinition="LONGTEXT")
 	String texto;
@@ -106,7 +106,7 @@ public class PlantDetails {
 				String nome, 
 				List<OutroNome> outrosNomes, 
 				String ordem, 
-				List<EstacoesAno> floracao,
+				List<Floracao> floracao,
 				String genero, 
 				TipoRega rega, 
 				String tamanho, 
@@ -120,7 +120,7 @@ public class PlantDetails {
 				String subTribo, 
 				String especie, 
 				List<Iluminacao> iluminacao, 
-				List<EstacoesAno> plantio, 
+				List<Plantio> plantio, 
 				String infos,
 				Boolean frutoComestivel
 			) {
@@ -178,11 +178,11 @@ public class PlantDetails {
 		this.ordem = ordem;
 	}
 
-	public List<EstacoesAno> getFloracao() {
+	public List<Floracao> getFloracao() {
 		return floracao;
 	}
 
-	public void setFloracao(List<EstacoesAno> floracao) {
+	public void setFloracao(List<Floracao> floracao) {
 		this.floracao = floracao;
 	}
 
@@ -290,11 +290,11 @@ public class PlantDetails {
 		this.iluminacao = iluminacao;
 	}
 
-	public List<EstacoesAno> getPlantio() {
+	public List<Plantio> getPlantio() {
 		return plantio;
 	}
 
-	public void setPlantio(List<EstacoesAno> plantio) {
+	public void setPlantio(List<Plantio> plantio) {
 		this.plantio = plantio;
 	}
 

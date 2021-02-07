@@ -8,11 +8,12 @@ import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
-import com.project.nakano.plantindex.jpa.model.EstacoesAno;
+import com.project.nakano.plantindex.jpa.model.Floracao;
 import com.project.nakano.plantindex.jpa.model.Iluminacao;
 import com.project.nakano.plantindex.jpa.model.Origem;
 import com.project.nakano.plantindex.jpa.model.OutroNome;
 import com.project.nakano.plantindex.jpa.model.PlantDetails;
+import com.project.nakano.plantindex.jpa.model.Plantio;
 import com.project.nakano.plantindex.jpa.model.Propagacao;
 import com.project.nakano.plantindex.jpa.model.TipoCategoria;
 import com.project.nakano.plantindex.jpa.model.TipoEstacoesAno;
@@ -20,7 +21,7 @@ import com.project.nakano.plantindex.jpa.model.TipoIluminacao;
 import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
 import com.project.nakano.plantindex.jpa.model.TipoRega;
 
-public abstract class PlantDetailsDatabaseBuilder {
+public abstract class PlantDetailsBuilder {
 	
 	PlantDetails setRecoveredPlantDetails(MultiValueMap<String, String> map) {
 		String nome = this.extractStringFromMap(map, "Nome popular");
@@ -29,7 +30,7 @@ public abstract class PlantDetailsDatabaseBuilder {
 
 		String ordem = this.extractStringFromMap(map, "Ordem");
 
-		List<EstacoesAno> floracao = this.estacoesAnoParser(this.extractStringFromMap(map, "Floração"));
+		List<Floracao> floracao = this.floracaoParser(this.extractStringFromMap(map, "Floração"));
 
 		String genero = this.extractStringFromMap(map, "Gênero");
 
@@ -57,7 +58,7 @@ public abstract class PlantDetailsDatabaseBuilder {
 
 		List<Iluminacao> iluminacao = this.iluminacaoParser(this.extractStringFromMap(map, "Iluminação"));
 	
-		List<EstacoesAno> plantio = this.estacoesAnoParser(this.extractStringFromMap(map, "Plantio"));
+		List<Plantio> plantio = this.plantioParser(this.extractStringFromMap(map, "Plantio"));
 
 		String infos = this.extractStringFromMap(map, "infos");
 
@@ -133,22 +134,40 @@ public abstract class PlantDetailsDatabaseBuilder {
 		return TipoRega.MEDIA;
 	}
 
-	private List<EstacoesAno> estacoesAnoParser(String estText) {
-		List<EstacoesAno> floracao = new ArrayList<>();
+	private List<Floracao> floracaoParser(String estText) {
+		List<Floracao> floracao = new ArrayList<>();
 		if (estText.contains("primavera"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
+			floracao.add(new Floracao(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
 		if (estText.contains("verão"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
+			floracao.add(new Floracao(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
 		if (estText.contains("outono"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
+			floracao.add(new Floracao(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
 		if (estText.contains("inverno"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
+			floracao.add(new Floracao(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
 		if (estText.contains("todo"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
+			floracao.add(new Floracao(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
 		if (estText.contains("sem"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
+			floracao.add(new Floracao(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
 
 		return floracao;
+	}
+	
+	private List<Plantio> plantioParser(String estText) {
+		List<Plantio> plantio = new ArrayList<>();
+		if (estText.contains("primavera"))
+			plantio.add(new Plantio(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
+		if (estText.contains("verão"))
+			plantio.add(new Plantio(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
+		if (estText.contains("outono"))
+			plantio.add(new Plantio(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
+		if (estText.contains("inverno"))
+			plantio.add(new Plantio(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
+		if (estText.contains("todo"))
+			plantio.add(new Plantio(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
+		if (estText.contains("sem"))
+			plantio.add(new Plantio(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
+
+		return plantio;
 	}
 
 	public Categoria categoriaParser(String cat) {
