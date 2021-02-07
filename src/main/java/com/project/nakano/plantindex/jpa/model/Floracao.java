@@ -10,28 +10,28 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "estacoes_ano", uniqueConstraints={@UniqueConstraint(columnNames ={"id", "tipoEstacao"})})
-public class EstacoesAno {
+@Table(name = "floracao", uniqueConstraints={@UniqueConstraint(columnNames ={"id", "estacao"})})
+public class Floracao {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Enumerated(EnumType.STRING)
-	private TipoEstacoesAno tipoEstacao;
+	private TipoEstacoesAno estacao;
 
 	// O Hibernate precisa do construtor padrão sem nada
 	@Deprecated
-	public EstacoesAno() {
+	public Floracao() {
 	}
 	
-	public EstacoesAno(TipoEstacoesAno tipo) {
-		this.tipoEstacao = tipo;
+	public Floracao(TipoEstacoesAno estacao) {
+		this.estacao = estacao;
 	}
 	
-	public EstacoesAno(Long id, TipoEstacoesAno tipo) {
+	public Floracao(Long id, TipoEstacoesAno estacao) {
 		this.id = id;
-		this.tipoEstacao = tipo;
+		this.estacao = estacao;
 	}
 	
 	public Long getId() {
@@ -43,11 +43,16 @@ public class EstacoesAno {
 	}
 
 	public TipoEstacoesAno getEstacao() {
-		return tipoEstacao;
+		return estacao;
 	}
 
-	public void setEstacao(TipoEstacoesAno estacao) {
-		this.tipoEstacao = estacao;
+	public void setEstacao(TipoEstacoesAno floracao) {
+		this.estacao = floracao;
+	}
+
+	@Override
+	public String toString() {
+		return "EstacoesAno [id=" + id + ", tipoEstacao=" + estacao + "]";
 	}
 	
 }

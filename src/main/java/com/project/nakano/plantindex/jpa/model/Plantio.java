@@ -10,30 +10,30 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "iluminacao", uniqueConstraints={@UniqueConstraint(columnNames ={"id", "tipoIluminacao"})})
-public class Iluminacao {
-
+@Table(name = "plantio", uniqueConstraints={@UniqueConstraint(columnNames ={"id", "estacao"})})
+public class Plantio {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@Enumerated(EnumType.STRING)
-	private TipoIluminacao tipoIluminacao;
+	private TipoEstacoesAno estacao;
 
 	// O Hibernate precisa do construtor padrão sem nada
 	@Deprecated
-	public Iluminacao() {
+	public Plantio() {
 	}
 	
-	public Iluminacao(TipoIluminacao ilu) {
-		this.tipoIluminacao = ilu;
+	public Plantio(TipoEstacoesAno estacao) {
+		this.estacao = estacao;
 	}
-
-	public Iluminacao(Long value, TipoIluminacao ilu) {
-		this.id = value;
-		this.tipoIluminacao = ilu;
+	
+	public Plantio(Long id, TipoEstacoesAno estacao) {
+		this.id = id;
+		this.estacao = estacao;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -42,17 +42,17 @@ public class Iluminacao {
 		this.id = id;
 	}
 
-	public TipoIluminacao getTipoIluminacao() {
-		return tipoIluminacao;
+	public TipoEstacoesAno getEstacao() {
+		return estacao;
 	}
 
-	public void setTipoIluminacao(TipoIluminacao tipoIluminacao) {
-		this.tipoIluminacao = tipoIluminacao;
+	public void setEstacao(TipoEstacoesAno floracao) {
+		this.estacao = floracao;
 	}
 
 	@Override
 	public String toString() {
-		return "Iluminacao [id=" + id + ", tipoIluminacao=" + tipoIluminacao + "]";
+		return "EstacoesAno [id=" + id + ", tipoEstacao=" + estacao + "]";
 	}
 	
 }

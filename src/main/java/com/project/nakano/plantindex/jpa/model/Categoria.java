@@ -56,4 +56,10 @@ public class Categoria {
 		this.tipoCategoria = tipoCategoria;
 	}
 
+	@Override
+	public String toString() {
+		return "Categoria [id=" + id + ", tipoCategoria=" + tipoCategoria + "]";
+	}
+
+	
 }

@@ -49,4 +49,9 @@ public class Propagacao {
 		this.tipoPropagacao = tipoPropagacao;
 	}
 
+	@Override
+	public String toString() {
+		return "Propagacao [id=" + id + ", tipoPropagacao=" + tipoPropagacao + "]";
+	}
+
 }

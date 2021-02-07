@@ -3,6 +3,7 @@ package com.project.nakano.plantindex.jpa;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
-import com.project.nakano.plantindex.jpa.model.EstacoesAno;
+import com.project.nakano.plantindex.jpa.model.Floracao;
 import com.project.nakano.plantindex.jpa.model.Iluminacao;
 import com.project.nakano.plantindex.jpa.model.Origem;
 import com.project.nakano.plantindex.jpa.model.OutroNome;
 import com.project.nakano.plantindex.jpa.model.PlantDetails;
+import com.project.nakano.plantindex.jpa.model.Plantio;
 import com.project.nakano.plantindex.jpa.model.Propagacao;
 import com.project.nakano.plantindex.jpa.model.TipoCategoria;
 import com.project.nakano.plantindex.jpa.model.TipoEstacoesAno;
@@ -23,7 +25,7 @@ import com.project.nakano.plantindex.jpa.model.TipoIluminacao;
 import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
 
 @RestController
-public class UpdateDatabaseJPAController extends PlantDetailsDatabaseBuilder {
+public class UpdateDatabaseJPAController extends PlantDetailsBuilder {
 
 	@Autowired
 	private PlantRepository plantRepository;
@@ -35,7 +37,10 @@ public class UpdateDatabaseJPAController extends PlantDetailsDatabaseBuilder {
 	private OutroNomeRepository outroNomeRepository;
 	
 	@Autowired
-	private EstacoesDoAnoRepository estacoesDoAnoRepository;
+	private FloracaoRepository floracaoRepository;
+
+	@Autowired
+	private PlantioRepository plantioRepository;
 	
 	@Autowired
 	private PropagacaoRepository propagacaoRepository;
@@ -56,7 +61,8 @@ public class UpdateDatabaseJPAController extends PlantDetailsDatabaseBuilder {
 
 		
 		this.insertInCategoriaTable();
-		this.insertInEstacoesDoAnoTable();
+		this.insertInFloracaoTable();
+		this.insertInPlantioTable();
 		this.insertInIluminacaoTable();
 		this.insertInPropagacaoTable();
 		
@@ -84,8 +90,15 @@ public class UpdateDatabaseJPAController extends PlantDetailsDatabaseBuilder {
 			}
 		});
 		
-		plantDetailsList.forEach(plant -> {		
-			plantRepository.save(plant);
+		plantDetailsList.forEach(plant -> {
+			PlantDetails p = plantRepository.findByNome(plant.getNome());
+			// Se já existir, atualiza. Caso não exista, salva
+			if(Objects.isNull(p)) {
+				plantRepository.save(plant);
+			} else {
+				plant.setId(p.getId());
+				plantRepository.save(plant);
+			}
 		});
 
 		return status;
@@ -111,14 +124,24 @@ public class UpdateDatabaseJPAController extends PlantDetailsDatabaseBuilder {
 		categoriaRepository.save(new Categoria(TipoCategoria.TREPADEIRAS.getValue(), TipoCategoria.TREPADEIRAS));
 	}
 	
-	public void insertInEstacoesDoAnoTable() {
-		estacoesDoAnoRepository.save(new EstacoesAno(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
-		estacoesDoAnoRepository.save(new EstacoesAno(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
-		estacoesDoAnoRepository.save(new EstacoesAno(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
-		estacoesDoAnoRepository.save(new EstacoesAno(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
-		estacoesDoAnoRepository.save(new EstacoesAno(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
-		estacoesDoAnoRepository.save(new EstacoesAno(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
+	public void insertInFloracaoTable() {
+		floracaoRepository.save(new Floracao(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
+		floracaoRepository.save(new Floracao(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
+		floracaoRepository.save(new Floracao(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
+		floracaoRepository.save(new Floracao(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
+		floracaoRepository.save(new Floracao(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
+		floracaoRepository.save(new Floracao(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
 	}
+	
+	public void insertInPlantioTable() {
+		plantioRepository.save(new Plantio(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
+		plantioRepository.save(new Plantio(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
+		plantioRepository.save(new Plantio(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
+		plantioRepository.save(new Plantio(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
+		plantioRepository.save(new Plantio(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
+		plantioRepository.save(new Plantio(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
+	}
+
 
 	public void insertInIluminacaoTable() {
 		iluminacaoRepository.save(new Iluminacao(TipoIluminacao.SOMBRA.getValue(), TipoIluminacao.SOMBRA));
@@ -129,7 +152,14 @@ public class UpdateDatabaseJPAController extends PlantDetailsDatabaseBuilder {
 	public void insertInOrigemTable(PlantDetails plantDetails) {
 		List<Origem> nomes = plantDetails.getOrigem();
 		for (Origem origem : nomes) {
-				origemRepository.save(origem);
+			Origem or = origemRepository.findByNome(origem.getOrigem());
+				if(Objects.isNull(or)) {
+					origemRepository.save(origem);
+				} else {
+					origem.setId(or.getId());
+					origemRepository.save(origem);
+				}
+				
 		}
 	}
 	
@@ -144,7 +174,14 @@ public class UpdateDatabaseJPAController extends PlantDetailsDatabaseBuilder {
 	public void insertInOutroNomeTable(PlantDetails plant) {
 		List<OutroNome> nomes = plant.getOutrosNomes();
 		for (OutroNome outroNome : nomes) {
+			OutroNome nome = outroNomeRepository.findByNome(outroNome.getOutroNome());
+			if(Objects.isNull(nome)) { 
 				outroNomeRepository.save(outroNome);
+			} else {
+				outroNome.setId(nome.getId());
+				outroNomeRepository.save(outroNome);
+			}
+				
 		}
 	}
 	

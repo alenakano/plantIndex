@@ -14,6 +14,10 @@ public class Origem {
 
 	private String nome;
 	
+	@Deprecated
+	public Origem() {
+	}
+	
 	public Origem(String origem) {
 		this.nome = origem;
 	}
@@ -33,4 +37,11 @@ public class Origem {
 	public void setOrigem(String origem) {
 		this.nome = origem;
 	}
+
+	@Override
+	public String toString() {
+		return "Origem [id=" + id + ", nome=" + nome + "]";
+	}
+
+	
 }

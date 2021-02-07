@@ -1,18 +1,19 @@
 package com.project.nakano.plantindex.jpa;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
-import com.project.nakano.plantindex.jpa.model.EstacoesAno;
+import com.project.nakano.plantindex.jpa.model.Floracao;
 import com.project.nakano.plantindex.jpa.model.Iluminacao;
 import com.project.nakano.plantindex.jpa.model.Origem;
 import com.project.nakano.plantindex.jpa.model.OutroNome;
 import com.project.nakano.plantindex.jpa.model.PlantDetails;
+import com.project.nakano.plantindex.jpa.model.Plantio;
 import com.project.nakano.plantindex.jpa.model.Propagacao;
 import com.project.nakano.plantindex.jpa.model.TipoCategoria;
 import com.project.nakano.plantindex.jpa.model.TipoEstacoesAno;
@@ -20,7 +21,7 @@ import com.project.nakano.plantindex.jpa.model.TipoIluminacao;
 import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
 import com.project.nakano.plantindex.jpa.model.TipoRega;
 
-public abstract class PlantDetailsDatabaseBuilder {
+public abstract class PlantDetailsBuilder {
 	
 	PlantDetails setRecoveredPlantDetails(MultiValueMap<String, String> map) {
 		String nome = this.extractStringFromMap(map, "Nome popular");
@@ -29,7 +30,7 @@ public abstract class PlantDetailsDatabaseBuilder {
 
 		String ordem = this.extractStringFromMap(map, "Ordem");
 
-		List<EstacoesAno> floracao = this.estacoesAnoParser(this.extractStringFromMap(map, "Floração"));
+		List<Floracao> floracao = this.floracaoParser(this.extractStringFromMap(map, "Floração"));
 
 		String genero = this.extractStringFromMap(map, "Gênero");
 
@@ -57,7 +58,7 @@ public abstract class PlantDetailsDatabaseBuilder {
 
 		List<Iluminacao> iluminacao = this.iluminacaoParser(this.extractStringFromMap(map, "Iluminação"));
 	
-		List<EstacoesAno> plantio = this.estacoesAnoParser(this.extractStringFromMap(map, "Plantio"));
+		List<Plantio> plantio = this.plantioParser(this.extractStringFromMap(map, "Plantio"));
 
 		String infos = this.extractStringFromMap(map, "infos");
 
@@ -88,17 +89,21 @@ public abstract class PlantDetailsDatabaseBuilder {
 	}
 	
 	private String extractStringFromMap(MultiValueMap<String, String> map, String key) {
-		return Arrays.toString(map.getCollection(key).toArray(new String[0]));
+		return map.getCollection(key).toArray(new String[0])[0];
 	}
 
 	private List<OutroNome> outroNomeParser(ArrayList<String> outrosNomes) {
 
 		List<OutroNome> names = new ArrayList<>();
-		if (outrosNomes != null && !outrosNomes.isEmpty()) {
+		if (!Objects.isNull(outrosNomes)) {
 			outrosNomes.forEach(s -> {
 				String[] namesSplitted = s.split(", ");
 				for (String name : namesSplitted) {
-					names.add(new OutroNome(name));
+					if (!name.isEmpty()) { 
+						names.add(new OutroNome(name));
+					} else {
+						names.add(new OutroNome("nenhum"));
+					}
 				}
 			});
 		} else {
@@ -110,7 +115,7 @@ public abstract class PlantDetailsDatabaseBuilder {
 	private List<Origem> origemParser(ArrayList<String> origem) {
 
 		List<Origem> names = new ArrayList<>();
-		if (origem != null && !origem.isEmpty()) {
+		if (!Objects.isNull(origem)) {
 			origem.forEach(s -> {
 				String[] namesSplitted = s.replace(" e ", ", ").split(", ");
 				for (String name : namesSplitted) {
@@ -129,22 +134,40 @@ public abstract class PlantDetailsDatabaseBuilder {
 		return TipoRega.MEDIA;
 	}
 
-	private List<EstacoesAno> estacoesAnoParser(String estText) {
-		List<EstacoesAno> floracao = new ArrayList<>();
+	private List<Floracao> floracaoParser(String estText) {
+		List<Floracao> floracao = new ArrayList<>();
 		if (estText.contains("primavera"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
+			floracao.add(new Floracao(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
 		if (estText.contains("verão"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
+			floracao.add(new Floracao(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
 		if (estText.contains("outono"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
+			floracao.add(new Floracao(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
 		if (estText.contains("inverno"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
+			floracao.add(new Floracao(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
 		if (estText.contains("todo"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
+			floracao.add(new Floracao(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
 		if (estText.contains("sem"))
-			floracao.add(new EstacoesAno(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
+			floracao.add(new Floracao(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
 
 		return floracao;
+	}
+	
+	private List<Plantio> plantioParser(String estText) {
+		List<Plantio> plantio = new ArrayList<>();
+		if (estText.contains("primavera"))
+			plantio.add(new Plantio(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
+		if (estText.contains("verão"))
+			plantio.add(new Plantio(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
+		if (estText.contains("outono"))
+			plantio.add(new Plantio(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
+		if (estText.contains("inverno"))
+			plantio.add(new Plantio(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
+		if (estText.contains("todo"))
+			plantio.add(new Plantio(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
+		if (estText.contains("sem"))
+			plantio.add(new Plantio(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
+
+		return plantio;
 	}
 
 	public Categoria categoriaParser(String cat) {

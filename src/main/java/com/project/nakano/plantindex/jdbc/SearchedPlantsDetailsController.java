@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SearchedPlantsDetailsController {
 	
-	private MultiValueMap<String, String> map = new MultiValueMap<String, String>();
+	private MultiValueMap<String, String> map = new MultiValueMap<>();
 	private final String minhasPlantas = "https://minhasplantas.com.br/plantas/";
 	
 	@GetMapping("/plants")
