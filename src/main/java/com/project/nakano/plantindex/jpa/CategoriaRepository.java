@@ -6,4 +6,6 @@ import com.project.nakano.plantindex.jpa.model.Categoria;
 
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
+	Categoria findByTipoCategoria(String tipoCategoria);
+	
 }

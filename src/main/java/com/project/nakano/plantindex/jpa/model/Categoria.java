@@ -18,9 +18,8 @@ public class Categoria {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	
-	@Enumerated(EnumType.STRING)
 	@Column(unique=true)
-	private TipoCategoria tipoCategoria;
+	private String tipoCategoria;
 	
 	@OneToMany(mappedBy="categoria")
 	List<PlantDetails> plantas;
@@ -29,12 +28,12 @@ public class Categoria {
 	public Categoria() {
 	}
 
-	public Categoria(TipoCategoria tipoCategoria) {
+	public Categoria(String tipoCategoria) {
 		super();
 		this.tipoCategoria = tipoCategoria;
 	}
 	
-	public Categoria(Long id, TipoCategoria tipoCategoria) {
+	public Categoria(Long id, String tipoCategoria) {
 		super();
 		this.id = id;
 		this.tipoCategoria = tipoCategoria;
@@ -48,11 +47,11 @@ public class Categoria {
 		this.id = id;
 	}
 
-	public TipoCategoria getTipoCategoria() {
+	public String getTipoCategoria() {
 		return tipoCategoria;
 	}
 
-	public void setTipoCategoria(TipoCategoria tipoCategoria) {
+	public void setTipoCategoria(String tipoCategoria) {
 		this.tipoCategoria = tipoCategoria;
 	}
 

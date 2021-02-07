@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.collections4.map.MultiValueMap;
-import org.apache.commons.lang3.StringUtils;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
 import com.project.nakano.plantindex.jpa.model.Floracao;
@@ -15,7 +14,6 @@ import com.project.nakano.plantindex.jpa.model.OutroNome;
 import com.project.nakano.plantindex.jpa.model.PlantDetails;
 import com.project.nakano.plantindex.jpa.model.Plantio;
 import com.project.nakano.plantindex.jpa.model.Propagacao;
-import com.project.nakano.plantindex.jpa.model.TipoCategoria;
 import com.project.nakano.plantindex.jpa.model.TipoEstacoesAno;
 import com.project.nakano.plantindex.jpa.model.TipoIluminacao;
 import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
@@ -171,8 +169,8 @@ public abstract class PlantDetailsBuilder {
 	}
 
 	public Categoria categoriaParser(String cat) {
-		TipoCategoria categoria = TipoCategoria.valueOf(StringUtils.stripAccents(cat).replace("[", "").replace("]", "").toUpperCase());
-		return new Categoria(categoria.getValue(), categoria);
+//		TipoCategoria categoria = TipoCategoria.valueOf(StringUtils.stripAccents(cat).replace("[", "").replace("]", "").toUpperCase());
+		return new Categoria(cat);
 	}
 
 	private Boolean setPerfumada(String per) {
