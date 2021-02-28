@@ -7,14 +7,12 @@ import java.util.Objects;
 
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
-import com.project.nakano.plantindex.jpa.model.NamedId;
 import com.project.nakano.plantindex.jpa.model.Origem;
 import com.project.nakano.plantindex.jpa.model.OutroNome;
 import com.project.nakano.plantindex.jpa.model.PlantDetails;
