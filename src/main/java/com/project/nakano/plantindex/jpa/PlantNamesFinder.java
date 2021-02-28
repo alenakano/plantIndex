@@ -10,11 +10,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public abstract class PlantNamesFinder extends MinhasPlantasData {
+public class PlantNamesFinder extends MinhasPlantasData {
 
-	public static List<String> searchPlantNames(String categoria) throws IOException {
+	public List<String> searchPlantNames(String categoria) throws IOException {
 
-		List<String> plantNames = new ArrayList<String>();
+		List<String> plantNames = new ArrayList<>();
 
 		try {
 			Document doc;

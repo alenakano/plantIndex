@@ -25,7 +25,7 @@ public class PersistenceJpaConfiguration {
 	private static final String DIALECT = "org.hibernate.dialect.MySQL8Dialect";
 	private static final String DDL = "update";
 	private static final String FORMAT = "true";
-	private static final String SHOWSQL = "true";
+	private static final String SHOWSQL = "false";
 	
     @Primary
     @Bean(name="jpaDataSource")

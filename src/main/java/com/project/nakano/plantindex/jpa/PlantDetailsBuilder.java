@@ -15,9 +15,10 @@ import com.project.nakano.plantindex.jpa.model.TipoIluminacao;
 import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
 import com.project.nakano.plantindex.jpa.model.TipoRega;
 
-public abstract class PlantDetailsBuilder {
+public class PlantDetailsBuilder {
 	
 	PlantDetails setRecoveredPlantDetails(MultiValueMap<String, String> map) {
+		
 		String nome = this.extractStringFromMap(map, "Nome popular");
 
 		List<OutroNome> outrosNomes = this.outroNomeParser((ArrayList<String>) map.getCollection("Outros nomes"));

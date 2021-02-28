@@ -9,9 +9,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
-public abstract class PlantDetailsFinder extends MinhasPlantasData {
+public class PlantDetailsFinder extends MinhasPlantasData {
 
-	public static MultiValueMap<String, String> searchPlantDetails(String plantURL) throws IOException {
+	public MultiValueMap<String, String> searchPlantDetails(String plantURL) throws IOException {
 
 		MultiValueMap<String, String> map = new MultiValueMap<String, String>();
 

@@ -7,18 +7,17 @@ import java.util.Objects;
 
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
 import com.project.nakano.plantindex.jpa.model.Origem;
 import com.project.nakano.plantindex.jpa.model.OutroNome;
 import com.project.nakano.plantindex.jpa.model.PlantDetails;
 
-@RestController
-public class UpdateDatabaseJPAController extends PlantDetailsBuilder {
+@Service
+public class SyncDatabaseService {
 
 	@Autowired
 	private PlantRepository plantRepository;
@@ -31,29 +30,26 @@ public class UpdateDatabaseJPAController extends PlantDetailsBuilder {
 
 	@Autowired
 	private OrigemRepository origemRepository;
+	
+	public ResponseEntity<?> syncDatabase(String categoria) {
 
-	@GetMapping("/updatedatabasejpa")
-	public String updateDatase(@RequestParam(value = "categoria", defaultValue = "") String categoria)
-			throws IOException {
-
-		String status = "Sucesso";
-		List<String> plantsToSearch = new ArrayList<String>();
+		List<String> plantsToSearch = new ArrayList<>();
 		List<PlantDetails> plantDetailsList = new ArrayList<>();
 		
 		// Recuperar links href das plantas para pesquisa
 		try {
-			plantsToSearch = PlantNamesFinder.searchPlantNames(categoria);
+			plantsToSearch = new PlantNamesFinder().searchPlantNames(categoria);
 		} catch (Exception e) {
 			e.printStackTrace();
-			status = "Falha";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-
+		
 		// Busca detalhes da planta pelo link href recuperado.
 		plantsToSearch.forEach(pl -> {
 			try {
 				
-				MultiValueMap<String, String> collectedDetails = PlantDetailsFinder.searchPlantDetails(pl);
-				PlantDetails plantDetails = setRecoveredPlantDetails(collectedDetails);
+				MultiValueMap<String, String> collectedDetails = new PlantDetailsFinder().searchPlantDetails(pl);
+				PlantDetails plantDetails = new PlantDetailsBuilder().setRecoveredPlantDetails(collectedDetails);
 				
 				this.insertIntoOutroNomeTable(plantDetails);
 				this.insertIntoOrigemTable(plantDetails);
@@ -67,7 +63,7 @@ public class UpdateDatabaseJPAController extends PlantDetailsBuilder {
 		
 		plantDetailsList.forEach(plant -> {
 			PlantDetails p = plantRepository.findByNome(plant.getNome());
-			// Se já existir, atualiza. Caso não exista, salva
+			// Se jÃ¡ existir, atualiza. Caso nÃ£o exista, salva
 			if(Objects.isNull(p)) {
 				plantRepository.save(plant);
 			} else {
@@ -75,10 +71,11 @@ public class UpdateDatabaseJPAController extends PlantDetailsBuilder {
 				plantRepository.save(plant);
 			}
 		});
-
-		return status;
+		
+		return ResponseEntity.ok().body("Sucesso");
 	}
-	public void insertIntoCategoriaTable(PlantDetails plantDetails) {
+	
+	private void insertIntoCategoriaTable(PlantDetails plantDetails) {
 		Categoria categoria = plantDetails.getCategoria();
 		Categoria cat = categoriaRepository.findBynome(categoria.getNome());
 		
@@ -90,7 +87,7 @@ public class UpdateDatabaseJPAController extends PlantDetailsBuilder {
 		}
 	}
 	
-	public void insertIntoOrigemTable(PlantDetails plantDetails) {
+	private void insertIntoOrigemTable(PlantDetails plantDetails) {
 		List<Origem> nomes = plantDetails.getOrigem();
 		for (Origem origem : nomes) {
 			Origem or = origemRepository.findByNome(origem.getNome());
@@ -103,7 +100,7 @@ public class UpdateDatabaseJPAController extends PlantDetailsBuilder {
 		}
 	}
 	
-	public void insertIntoOutroNomeTable(PlantDetails plant) {
+	private void insertIntoOutroNomeTable(PlantDetails plant) {
 		List<OutroNome> nomes = plant.getOutrosNomes();
 		for (OutroNome outroNome : nomes) {
 			OutroNome nome = outroNomeRepository.findByNome(outroNome.getNome());
@@ -116,5 +113,5 @@ public class UpdateDatabaseJPAController extends PlantDetailsBuilder {
 				
 		}
 	}
-
+	
 }
