@@ -46,25 +46,30 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- Web Scrapping-->
 		<dependency>
 		    <groupId>org.jsoup</groupId>
 		    <artifactId>jsoup</artifactId>
 		    <version>1.10.2</version>
 		</dependency>
+		<!-- Multivalued Map -->
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-collections4</artifactId>
 		    <version>4.0</version>
 		</dependency>
+		<!-- Restart server on save -->
         <dependency>
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-devtools</artifactId>
+	        <scope>runtime</scope>
 	        <optional>true</optional>
         </dependency>
         <dependency> 
 		    <groupId>org.springframework.boot</groupId> 
 		    <artifactId>spring-boot-starter-data-jdbc</artifactId>
 		</dependency>
+		<!-- String Utils -->
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-lang3</artifactId>
