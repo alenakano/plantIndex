@@ -3,12 +3,10 @@ package com.project.nakano.plantindex.jpa.model;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -18,14 +16,7 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "plant_details", uniqueConstraints={@UniqueConstraint(columnNames ={"id", "nome"})})
-public class PlantDetails {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
-
-	@Column(unique=true)
-	String nome;
+public class PlantDetails extends NamedId {
 
 	@ManyToMany
 	@JoinTable(
@@ -36,12 +27,8 @@ public class PlantDetails {
 	
 	String ordem;
 
-	@ManyToMany
-	@JoinTable(
-	  joinColumns = @JoinColumn(name = "plant_details_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "floracao_id")
-	  )
-	List<Floracao> floracao;
+	@ElementCollection
+	List<TipoEstacoesAno> floracao;
 	
 	String genero;
 	
@@ -63,12 +50,8 @@ public class PlantDetails {
 			  )
 	List<Origem> origem;
 
-	@ManyToMany
-	@JoinTable(
-			  joinColumns = @JoinColumn(name = "plant_details_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "propagacao_id")
-			  )
-	List<Propagacao> propagacao;
+	@ElementCollection
+	List<TipoPropagacao> propagacao;
 	
 	String subFamilia;
 
@@ -80,19 +63,11 @@ public class PlantDetails {
 	
 	String especie;
 	
-	@ManyToMany
-	@JoinTable(
-			  joinColumns = @JoinColumn(name = "plant_details_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "iluminacao_id")
-			  )
-	List<Iluminacao> iluminacao;
+	@ElementCollection
+	List<TipoIluminacao> iluminacao;
 
-	@ManyToMany
-	@JoinTable(
-			  joinColumns = @JoinColumn(name = "plant_details_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "plantio_id")
-			  )
-	List<Plantio> plantio;
+	@ElementCollection
+	List<TipoEstacoesAno> plantio;
 	
 	@Column(name="texto",columnDefinition="LONGTEXT")
 	String texto;
@@ -106,7 +81,7 @@ public class PlantDetails {
 				String nome, 
 				List<OutroNome> outrosNomes, 
 				String ordem, 
-				List<Floracao> floracao,
+				List<TipoEstacoesAno> floracao,
 				String genero, 
 				TipoRega rega, 
 				String tamanho, 
@@ -114,17 +89,17 @@ public class PlantDetails {
 				String tribo, 
 				String familia,
 				List<Origem> origem, 
-				List<Propagacao> propagacao, 
+				List<TipoPropagacao> propagacao, 
 				String subFamilia, 
 				Categoria categoria,
 				String subTribo, 
 				String especie, 
-				List<Iluminacao> iluminacao, 
-				List<Plantio> plantio, 
+				List<TipoIluminacao> iluminacao, 
+				List<TipoEstacoesAno> plantio, 
 				String infos,
 				Boolean frutoComestivel
 			) {
-		this.nome = nome;
+		super.setNome(nome);
 		this.outrosNomes = outrosNomes;
 		this.ordem = ordem;
 		this.floracao = floracao;
@@ -145,23 +120,6 @@ public class PlantDetails {
 		this.texto = infos;
 		this.frutoComestivel = frutoComestivel;
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public List<OutroNome> getOutrosNomes() {
 		return outrosNomes;
 	}
@@ -178,11 +136,11 @@ public class PlantDetails {
 		this.ordem = ordem;
 	}
 
-	public List<Floracao> getFloracao() {
+	public List<TipoEstacoesAno> getFloracao() {
 		return floracao;
 	}
 
-	public void setFloracao(List<Floracao> floracao) {
+	public void setFloracao(List<TipoEstacoesAno> floracao) {
 		this.floracao = floracao;
 	}
 
@@ -242,11 +200,11 @@ public class PlantDetails {
 		this.origem = origem;
 	}
 
-	public List<Propagacao> getPropagacao() {
+	public List<TipoPropagacao> getPropagacao() {
 		return propagacao;
 	}
 
-	public void setPropagacao(List<Propagacao> propagacao) {
+	public void setPropagacao(List<TipoPropagacao> propagacao) {
 		this.propagacao = propagacao;
 	}
 
@@ -282,19 +240,19 @@ public class PlantDetails {
 		this.especie = especie;
 	}
 
-	public List<Iluminacao> getIluminacao() {
+	public List<TipoIluminacao> getTipoTipoTipoIluminacao() {
 		return iluminacao;
 	}
 
-	public void setIluminacao(List<Iluminacao> iluminacao) {
+	public void setTipoTipoTipoIluminacao(List<TipoIluminacao> iluminacao) {
 		this.iluminacao = iluminacao;
 	}
 
-	public List<Plantio> getPlantio() {
+	public List<TipoEstacoesAno> getPlantio() {
 		return plantio;
 	}
 
-	public void setPlantio(List<Plantio> plantio) {
+	public void setPlantio(List<TipoEstacoesAno> plantio) {
 		this.plantio = plantio;
 	}
 
@@ -313,22 +271,12 @@ public class PlantDetails {
 	public void setFrutos(Boolean frutos) {
 		this.frutoComestivel = frutos;
 	}
-
-	@Override
-	public String toString() {
-		return "PlantDetails [nome=" + nome + ", outrosNomes=" + outrosNomes + ", ordem=" + ordem + ", floracao="
-				+ floracao + ", genero=" + genero + ", rega=" + rega + ", tamanho=" + tamanho + ", perfumada="
-				+ perfumada + ", tribo=" + tribo + ", familia=" + familia + ", origem=" + origem + ", propagacao="
-				+ propagacao + ", subfamília=" + subFamilia + ", categoria=" + categoria + ", subtribo=" + subtribo
-				+ ", especie=" + especie + ", iluminacao=" + iluminacao + ", plantio=" + plantio + ", texto=" + texto
-				+ ", frutos=" + frutoComestivel + "]";
-	}
 	
 	public String toStringHTML() {
-		return "<h1>" + nome.toUpperCase() + "</h1><h3>nome</h3>" + nome + "<br/><h3>outrosNomes</h3>" + outrosNomes + "<br/><h3>ordem</h3>" + ordem + "<br/><h3>floracao</h3>"
+		return "<h1>" + super.getNome().toUpperCase() + "</h1><h3>nome</h3>" + super.getNome() + "<br/><h3>outrosNomes</h3>" + outrosNomes + "<br/><h3>ordem</h3>" + ordem + "<br/><h3>floracao</h3>"
 				+ floracao + "<br/><h3>genero</h3>" + genero + "<br/><h3>rega</h3>" + rega + "<br/><h3>tamanho</h3>" + tamanho + "<br/><h3>perfumada</h3>"
 				+ perfumada + "<br/><h3>tribo</h3>" + tribo + "<br/><h3>familia</h3>" + familia + "<br/><h3>origem</h3>" + origem + "<br/><h3>propagacao</h3>"
-				+ propagacao + "<br/><h3>subfamília</h3>" + subFamilia + "<br/><h3>categoria</h3>" + categoria + "<br/><h3>subtribo</h3>" + subtribo
+				+ propagacao + "<br/><h3>subfamília</h3>" + subFamilia + "<br/><h3>categoria</h3>" + categoria.getNome() + "<br/><h3>subtribo</h3>" + subtribo
 				+ "<br/><h3>especie</h3>" + especie + "<br/><h3>iluminacao</h3>" + iluminacao + "<br/><h3>plantio</h3>" + plantio 
 				+ "<br/><h3>frutos</h3>" + frutoComestivel + "<br/><br/><h1>TEXTO</h1>" + texto;
 	}

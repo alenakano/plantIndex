@@ -1,11 +1,11 @@
 package com.project.nakano.plantindex.jpa;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Component;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
 
-public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
+@Component
+public abstract class CategoriaRepository extends NamedIdRepository<Categoria> {
 
-	Categoria findByTipoCategoria(String tipoCategoria);
 	
 }

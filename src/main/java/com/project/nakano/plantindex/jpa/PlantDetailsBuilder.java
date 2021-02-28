@@ -7,13 +7,9 @@ import java.util.Objects;
 import org.apache.commons.collections4.map.MultiValueMap;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
-import com.project.nakano.plantindex.jpa.model.Floracao;
-import com.project.nakano.plantindex.jpa.model.Iluminacao;
 import com.project.nakano.plantindex.jpa.model.Origem;
 import com.project.nakano.plantindex.jpa.model.OutroNome;
 import com.project.nakano.plantindex.jpa.model.PlantDetails;
-import com.project.nakano.plantindex.jpa.model.Plantio;
-import com.project.nakano.plantindex.jpa.model.Propagacao;
 import com.project.nakano.plantindex.jpa.model.TipoEstacoesAno;
 import com.project.nakano.plantindex.jpa.model.TipoIluminacao;
 import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
@@ -28,7 +24,7 @@ public abstract class PlantDetailsBuilder {
 
 		String ordem = this.extractStringFromMap(map, "Ordem");
 
-		List<Floracao> floracao = this.floracaoParser(this.extractStringFromMap(map, "Floração"));
+		List<TipoEstacoesAno> floracao = this.floracaoParser(this.extractStringFromMap(map, "Floração"));
 
 		String genero = this.extractStringFromMap(map, "Gênero");
 
@@ -44,19 +40,19 @@ public abstract class PlantDetailsBuilder {
 
 		List<Origem> origem = this.origemParser((ArrayList<String>) map.getCollection("Origem"));
 	
-		List<Propagacao> propagacao = this.propagacaoParser(this.extractStringFromMap(map, "Propagação"));
+		List<TipoPropagacao> propagacao = this.propagacaoParser(this.extractStringFromMap(map, "Propagação"));
 
 		String subFamilia = this.extractStringFromMap(map, "Subfamília");
 
-		Categoria categoria = this.categoriaParser(this.extractStringFromMap(map, "Categoria"));
+		Categoria categoria = new Categoria(this.extractStringFromMap(map, "Categoria"));
 
 		String subTribo = this.extractStringFromMap(map, "Subtribo");
 
 		String especie = this.extractStringFromMap(map, "Espécie");
 
-		List<Iluminacao> iluminacao = this.iluminacaoParser(this.extractStringFromMap(map, "Iluminação"));
+		List<TipoIluminacao> iluminacao = this.iluminacaoParser(this.extractStringFromMap(map, "Iluminação"));
 	
-		List<Plantio> plantio = this.plantioParser(this.extractStringFromMap(map, "Plantio"));
+		List<TipoEstacoesAno> plantio = this.plantioParser(this.extractStringFromMap(map, "Plantio"));
 
 		String infos = this.extractStringFromMap(map, "infos");
 
@@ -132,45 +128,40 @@ public abstract class PlantDetailsBuilder {
 		return TipoRega.MEDIA;
 	}
 
-	private List<Floracao> floracaoParser(String estText) {
-		List<Floracao> floracao = new ArrayList<>();
+	private List<TipoEstacoesAno> floracaoParser(String estText) {
+		List<TipoEstacoesAno> floracao = new ArrayList<>();
 		if (estText.contains("primavera"))
-			floracao.add(new Floracao(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
+			floracao.add(TipoEstacoesAno.PRIMAVERA);
 		if (estText.contains("verão"))
-			floracao.add(new Floracao(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
+			floracao.add(TipoEstacoesAno.VERAO);
 		if (estText.contains("outono"))
-			floracao.add(new Floracao(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
+			floracao.add(TipoEstacoesAno.OUTONO);
 		if (estText.contains("inverno"))
-			floracao.add(new Floracao(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
+			floracao.add(TipoEstacoesAno.INVERNO);
 		if (estText.contains("todo"))
-			floracao.add(new Floracao(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
+			floracao.add(TipoEstacoesAno.ANOTODO);
 		if (estText.contains("sem"))
-			floracao.add(new Floracao(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
+			floracao.add(TipoEstacoesAno.SEM);
 
 		return floracao;
 	}
 	
-	private List<Plantio> plantioParser(String estText) {
-		List<Plantio> plantio = new ArrayList<>();
+	private List<TipoEstacoesAno> plantioParser(String estText) {
+		List<TipoEstacoesAno> plantio = new ArrayList<>();
 		if (estText.contains("primavera"))
-			plantio.add(new Plantio(TipoEstacoesAno.PRIMAVERA.getValue(), TipoEstacoesAno.PRIMAVERA));
+			plantio.add(TipoEstacoesAno.PRIMAVERA);
 		if (estText.contains("verão"))
-			plantio.add(new Plantio(TipoEstacoesAno.VERAO.getValue(), TipoEstacoesAno.VERAO));
+			plantio.add(TipoEstacoesAno.VERAO);
 		if (estText.contains("outono"))
-			plantio.add(new Plantio(TipoEstacoesAno.OUTONO.getValue(), TipoEstacoesAno.OUTONO));
+			plantio.add(TipoEstacoesAno.OUTONO);
 		if (estText.contains("inverno"))
-			plantio.add(new Plantio(TipoEstacoesAno.INVERNO.getValue(), TipoEstacoesAno.INVERNO));
+			plantio.add(TipoEstacoesAno.INVERNO);
 		if (estText.contains("todo"))
-			plantio.add(new Plantio(TipoEstacoesAno.ANOTODO.getValue(), TipoEstacoesAno.ANOTODO));
+			plantio.add(TipoEstacoesAno.ANOTODO);
 		if (estText.contains("sem"))
-			plantio.add(new Plantio(TipoEstacoesAno.SEM.getValue(), TipoEstacoesAno.SEM));
+			plantio.add(TipoEstacoesAno.SEM);
 
 		return plantio;
-	}
-
-	public Categoria categoriaParser(String cat) {
-//		TipoCategoria categoria = TipoCategoria.valueOf(StringUtils.stripAccents(cat).replace("[", "").replace("]", "").toUpperCase());
-		return new Categoria(cat);
 	}
 
 	private Boolean setPerfumada(String per) {
@@ -181,30 +172,30 @@ public abstract class PlantDetailsBuilder {
 		return fru.matches("^comestíveis$");
 	}
 
-	private List<Iluminacao> iluminacaoParser(String ilu) {
-		List<Iluminacao> iluminacao = new ArrayList<>();
+	private List<TipoIluminacao> iluminacaoParser(String ilu) {
+		List<TipoIluminacao> iluminacao = new ArrayList<>();
 
 		if (ilu.contains("meia"))
-			iluminacao.add(new Iluminacao(TipoIluminacao.MEIASOMBRA.getValue(), TipoIluminacao.MEIASOMBRA));
+			iluminacao.add(TipoIluminacao.MEIASOMBRA);
 		if (ilu.contains("sol"))
-			iluminacao.add(new Iluminacao(TipoIluminacao.SOLPLENO.getValue(), TipoIluminacao.SOLPLENO));
+			iluminacao.add(TipoIluminacao.SOLPLENO);
 		if (ilu.contains("meia sombra sombra"))
-			iluminacao.add(new Iluminacao(TipoIluminacao.SOMBRA.getValue(), TipoIluminacao.SOMBRA));
+			iluminacao.add(TipoIluminacao.SOMBRA);
 		return iluminacao;
 	}
 
-	private List<Propagacao> propagacaoParser(String pro) {
-		List<Propagacao> propagacao = new ArrayList<>();
+	private List<TipoPropagacao> propagacaoParser(String pro) {
+		List<TipoPropagacao> propagacao = new ArrayList<>();
 		if (pro.contains("bulbo"))
-			propagacao.add(new Propagacao(TipoPropagacao.BULBO.getValue(), TipoPropagacao.BULBO));
+			propagacao.add(TipoPropagacao.BULBO);
 		if (pro.contains("estaca"))
-			propagacao.add(new Propagacao(TipoPropagacao.ESTACA.getValue(), TipoPropagacao.ESTACA));
+			propagacao.add(TipoPropagacao.ESTACA);
 		if (pro.contains("muda"))
-			propagacao.add(new Propagacao(TipoPropagacao.MUDA.getValue(), TipoPropagacao.MUDA));
+			propagacao.add(TipoPropagacao.MUDA);
 		if (pro.contains("semente"))
-			propagacao.add(new Propagacao(TipoPropagacao.SEMENTE.getValue(), TipoPropagacao.SEMENTE));
+			propagacao.add(TipoPropagacao.SEMENTE);
 		if (pro.contains("touceira"))
-			propagacao.add(new Propagacao(TipoPropagacao.TOUCEIRA.getValue(), TipoPropagacao.TOUCEIRA));
+			propagacao.add(TipoPropagacao.TOUCEIRA);
 		return propagacao;
 	}
 	
