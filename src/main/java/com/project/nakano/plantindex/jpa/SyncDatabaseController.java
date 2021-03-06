@@ -17,7 +17,7 @@ public class SyncDatabaseController extends PlantDetailsBuilder {
 	SyncDatabaseService syncDatabaseService;
 
 	@GetMapping()
-	public ResponseEntity<?> updateDatase(@RequestParam(value = "categoria", defaultValue = "") String categoria)
+	public ResponseEntity<?> syncDatabase(@RequestParam(value = "categoria", defaultValue = "") String categoria)
 			throws IOException {
 		
 		return this.syncDatabaseService.syncDatabase(categoria);
