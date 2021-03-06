@@ -8,6 +8,6 @@ import com.project.nakano.plantindex.jpa.model.Categoria;
 @Component
 public interface CategoriaRepository extends CrudRepository<Categoria, Long> {
 
-	public Categoria findBynome(String nome);
+	public Categoria findByNome(String nome);
 	
 }

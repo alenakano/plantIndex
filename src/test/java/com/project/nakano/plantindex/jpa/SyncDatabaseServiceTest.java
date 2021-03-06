@@ -1,5 +1,8 @@
 package com.project.nakano.plantindex.jpa;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -7,10 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.map.MultiValueMap;
+import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
@@ -22,8 +32,9 @@ import com.project.nakano.plantindex.jpa.model.TipoIluminacao;
 import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
 import com.project.nakano.plantindex.jpa.model.TipoRega;
 
-@RunWith(MockitoJUnitRunner.class)
-public class SyncDatabaseServiceTest {
+// MockitoExtension -> Compatível JUnit 5
+@ExtendWith(MockitoExtension.class)
+class SyncDatabaseServiceTest {
 
 	@Mock
 	CategoriaRepository categoriaMock;
@@ -34,29 +45,36 @@ public class SyncDatabaseServiceTest {
 	@Mock
 	OutroNomeRepository outroMock;
 	
+	@Captor
+	private ArgumentCaptor<PlantDetails> plantDetailsCaptor;
+	
 	@Mock
 	OrigemRepository origemMock;
 	
 	@Mock
-	private PlantDetailsFinder plantDetailsFinder;
+	PlantDetailsFinder plantDetailsFinder;
 	
 	@Mock
-	private PlantNamesFinder plantNamesFinder;
+	PlantNamesFinder plantNamesFinder;
 	
 	@Mock
-	private PlantDetailsBuilder plantDetailsBuilder;
+	PlantDetailsBuilder plantDetailsBuilder;
 	
-	
-	private SyncDatabaseService syncDatabaseService = 
-			new SyncDatabaseService();
-	
-	@Test
-	void testSuccess() throws IOException {
-		//Given
-		List<String> name = new ArrayList<String>();
-		name.add("/pimentao/");
 
-		MultiValueMap<String, String> map = new MultiValueMap<String, String>();
+	@InjectMocks
+	SyncDatabaseService syncDatabaseService;
+	
+	List<String> namesPlant = new ArrayList<>();
+	MultiValueMap<String, String> map = new MultiValueMap<String, String>();
+	PlantDetails plant;
+	
+	// GIVEN
+	@BeforeEach
+	void setup() throws IOException {
+		//Adicionando rotas
+		namesPlant.add("/pimentao/");
+		
+		//Adicionando resposta do html
 		map.put("Outros nomes", "pimentão-comum");
 		map.put("Ordem", "Solanales");
 		map.put("Floração", "o ano todo");
@@ -78,7 +96,7 @@ public class SyncDatabaseServiceTest {
 		map.put("infos", "Teste");
 		map.put("Frutos", "comestíveis");
 		
-		
+		// Populando objeto
 		List<OutroNome> outro = new ArrayList<>();
 		outro.add(new OutroNome("pimentão-comum"));
 		
@@ -100,8 +118,7 @@ public class SyncDatabaseServiceTest {
 		
 		Categoria cat = new Categoria("hortaliças");
 		
-		PlantDetails plant = 
-			new PlantDetails(
+		plant = new PlantDetails(
 					"Pimentão",
 					outro,
 					"Solanales",
@@ -123,18 +140,109 @@ public class SyncDatabaseServiceTest {
 					"Teste",
 					true
 			);
-		
-		//When
-		
-		ResponseEntity<?> res = syncDatabaseService.syncDatabase("teste");
-		when(plantNamesFinder.searchPlantNames("teste")).thenReturn(name);
+	}
+	
+	@Test
+	public void testSuccessWithNewValuesOnDatabase() throws IOException {
+
+		// WHEN
+		when(plantNamesFinder.searchPlantNames(Mockito.anyString())).thenReturn(namesPlant);
 		when(plantDetailsFinder.searchPlantDetails("/pimentao/")).thenReturn(map);
 		when(plantDetailsBuilder.setRecoveredPlantDetails(map)).thenReturn(plant);
 		
+		ResponseEntity<?> res = syncDatabaseService.syncDatabase("teste");
 		
-		//Then
-//		Assert.assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
+		//THEN
+		assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
+		verify(outroMock, times(1)).findByNome("pimentão-comum");
+		verify(outroMock, times(1)).save(Mockito.any(OutroNome.class));
+		verify(origemMock, times(1)).findByNome("Américas");
+		verify(origemMock, times(1)).save(Mockito.any(Origem.class));
+		verify(categoriaMock, times(1)).findByNome("hortaliças");
+		verify(categoriaMock, times(1)).save(Mockito.any(Categoria.class));
+		verify(plantMock, times(1)).findByNome("Pimentão");
+		verify(plantMock, times(1)).save(Mockito.any(PlantDetails.class));
+	}
+	
+	@Test
+	public void testSuccessExistentValuesOnDatabase() throws IOException {
+		
+		//GIVEN
+		OutroNome outroNomeTeste = new OutroNome("pimentão-comum");
+		outroNomeTeste.setId(5L);
+		
+		Origem origemTeste = new Origem("Américas");
+		origemTeste.setId(10L);
+		
+		Categoria categoriaTeste = new Categoria("hortaliças");
+		categoriaTeste.setId(9L);
+		
+		PlantDetails plantTeste = new PlantDetails(plant);
+		plantTeste.setId(14L);
+
+		// WHEN
+		when(plantNamesFinder.searchPlantNames(Mockito.anyString())).thenReturn(namesPlant);
+		when(plantDetailsFinder.searchPlantDetails("/pimentao/")).thenReturn(map);
+		when(plantDetailsBuilder.setRecoveredPlantDetails(map)).thenReturn(plant);
+		when(plantMock.findByNome("Pimentão")).thenReturn(plantTeste);
+		when(outroMock.findByNome("pimentão-comum")).thenReturn(outroNomeTeste);
+		when(origemMock.findByNome("Américas")).thenReturn(origemTeste);
+		when(categoriaMock.findByNome("hortaliças")).thenReturn(categoriaTeste);
+		
+		ResponseEntity<?> res = syncDatabaseService.syncDatabase("teste");
+		
+		//THEN
+		Assert.assertNotNull(res.getStatusCode());
+		
+		// Captura valor salvo ao chamar o método
+		verify(plantMock).save(plantDetailsCaptor.capture());
+		
+		assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
+		
+		// Atualizou OutroNome existente
+		verify(outroMock, times(1)).findByNome("pimentão-comum");
+		verify(outroMock, times(0)).save(Mockito.any(OutroNome.class));
+
+		
+		// Atualizou Origem existente
+		verify(origemMock, times(1)).findByNome("Américas");
+		verify(origemMock, times(0)).save(Mockito.any(Origem.class));
+		
+		// Atualizou Categoria existente
+		verify(categoriaMock, times(1)).findByNome("hortaliças");
+		verify(categoriaMock, times(0)).save(Mockito.any(Categoria.class));
+
+		// Atualizou Planta com dados existentes
+		verify(plantMock, times(1)).save(Mockito.any(PlantDetails.class));
+		assertThat(plantDetailsCaptor.getValue().getId()).isEqualTo(plantTeste.getId());
+		
+	}
+	
+	@Test
+	public void testExceptionOnPlantNamesFinder() throws IOException {
+		// WHEN
+		when(plantNamesFinder.searchPlantNames(Mockito.anyString())).thenThrow(new IOException());
+		
+		ResponseEntity<?> res = syncDatabaseService.syncDatabase("teste");
+		
+		//THEN
+		assertThat(res.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 		
 	}
 
+	@Test
+	public void testExceptionOnPlantDetails() throws IOException {
+		
+		// WHEN
+		when(plantNamesFinder.searchPlantNames(Mockito.anyString())).thenReturn(namesPlant);
+		when(plantDetailsFinder.searchPlantDetails(Mockito.any())).thenThrow(new IOException());
+		
+		
+		ResponseEntity<?> res = syncDatabaseService.syncDatabase("teste");
+		
+		// THEN
+		assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
+		
+	}
+	
 }

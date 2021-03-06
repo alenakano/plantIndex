@@ -24,58 +24,81 @@ public class PlantDetails extends NamedId {
 	  joinColumns = @JoinColumn(name = "plant_details_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "outro_nome_id")
 	  )
-	List<OutroNome> outrosNomes;
+	private List<OutroNome> outrosNomes;
 	
-	String ordem;
+	private String ordem;
 
 	@ElementCollection
-	List<TipoEstacoesAno> floracao;
+	private List<TipoEstacoesAno> floracao;
 	
-	String genero;
+	private String genero;
 	
 	@Enumerated(EnumType.STRING)
-	TipoRega rega;
+	private TipoRega rega;
 	
-	String tamanho;
+	private String tamanho;
 	
-	Boolean perfumada;
+	private Boolean perfumada;
 	
-	String tribo;
+	private String tribo;
 	
-	String familia;
+	private String familia;
 	
 	@ManyToMany
 	@JoinTable(
 			  joinColumns = @JoinColumn(name = "plant_details_id"), 
 			  inverseJoinColumns = @JoinColumn(name = "origem_id")
 			  )
-	List<Origem> origem;
+	private List<Origem> origem;
 
 	@ElementCollection
-	List<TipoPropagacao> propagacao;
+	private List<TipoPropagacao> propagacao;
 	
-	String subFamilia;
+	private String subFamilia;
 
 	@ManyToOne
 	@JoinColumn(name = "categoria")
-	Categoria categoria;
+	private Categoria categoria;
 	
-	String subtribo;
+	private String subtribo;
 	
-	String especie;
+	private String especie;
 	
 	@ElementCollection
-	List<TipoIluminacao> iluminacao;
+	private List<TipoIluminacao> iluminacao;
 
 	@ElementCollection
-	List<TipoEstacoesAno> plantio;
+	private List<TipoEstacoesAno> plantio;
 	
 	@Column(name="texto",columnDefinition="LONGTEXT")
-	String texto;
+	private String texto;
 	
-	Boolean frutoComestivel;
+	private Boolean frutoComestivel;
 
 	public PlantDetails() {
+	}
+	
+	public PlantDetails(PlantDetails plant) {
+		super.setNome(plant.getNome());
+		this.outrosNomes = plant.outrosNomes;
+		this.ordem = plant.ordem;
+		this.floracao = plant.floracao;
+		this.genero = plant.genero;
+		this.rega = plant.rega;
+		this.tamanho = plant.tamanho;
+		this.perfumada = plant.perfumada;
+		this.tribo = plant.tribo;
+		this.familia = plant.familia;
+		this.origem = plant.origem;
+		this.propagacao = plant.propagacao;
+		this.subFamilia = plant.subFamilia;
+		this.categoria = plant.categoria;
+		this.subtribo = plant.subtribo;
+		this.especie = plant.especie;
+		this.iluminacao = plant.iluminacao;
+		this.plantio = plant.plantio;
+		this.texto = plant.texto;
+		this.frutoComestivel = plant.frutoComestivel;
 	}
 
 	public PlantDetails(
@@ -241,11 +264,11 @@ public class PlantDetails extends NamedId {
 		this.especie = especie;
 	}
 
-	public List<TipoIluminacao> getTipoTipoTipoIluminacao() {
+	public List<TipoIluminacao> getTipoIluminacao() {
 		return iluminacao;
 	}
 
-	public void setTipoTipoTipoIluminacao(List<TipoIluminacao> iluminacao) {
+	public void setTipoIluminacao(List<TipoIluminacao> iluminacao) {
 		this.iluminacao = iluminacao;
 	}
 
