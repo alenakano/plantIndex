@@ -18,6 +18,8 @@ public class PlantNamesFinder extends MinhasPlantasData {
 
 		try {
 			Document doc;
+			
+			System.out.println("TESTE");
 
 			// URL e contador da paginacao
 			String baseUrl = categoria.isEmpty() ? minhasPlantas + "/plantas"
@@ -27,7 +29,7 @@ public class PlantNamesFinder extends MinhasPlantasData {
 			do {
 				// Paginacao da tela
 				String url = baseUrl + pagination.replaceAll("/paginationCounter/", paginationCounter.toString());
-
+				System.out.println("URL ---> " + url);
 				doc = Jsoup.connect(url).get();
 				Elements value = doc.select("article.Entry > a:nth-child(2)");
 

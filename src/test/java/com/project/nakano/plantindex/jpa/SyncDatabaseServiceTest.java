@@ -10,16 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.map.MultiValueMap;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -33,7 +31,9 @@ import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
 import com.project.nakano.plantindex.jpa.model.TipoRega;
 
 // MockitoExtension -> Compatível JUnit 5
-@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class)
+//A partir do Spring 2.1, Não é mais necessário o ExtendWith
+@SpringBootTest
 class SyncDatabaseServiceTest {
 
 	@Mock
@@ -192,7 +192,6 @@ class SyncDatabaseServiceTest {
 		ResponseEntity<?> res = syncDatabaseService.syncDatabase("teste");
 		
 		//THEN
-		Assert.assertNotNull(res.getStatusCode());
 		
 		// Captura valor salvo ao chamar o método
 		verify(plantMock).save(plantDetailsCaptor.capture());
@@ -244,5 +243,4 @@ class SyncDatabaseServiceTest {
 		assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
 		
 	}
-	
 }
