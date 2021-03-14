@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PlantNamesFinder extends MinhasPlantasData {
 
 	public List<String> searchPlantNames(String categoria) throws IOException {
@@ -27,8 +30,7 @@ public class PlantNamesFinder extends MinhasPlantasData {
 			do {
 				// Paginacao da tela
 				String url = baseUrl + pagination.replaceAll("/paginationCounter/", paginationCounter.toString());
-
-				doc = Jsoup.connect(url).get();
+				doc = connect(url).get();
 				Elements value = doc.select("article.Entry > a:nth-child(2)");
 
 				for (Element link : value) {
@@ -45,5 +47,9 @@ public class PlantNamesFinder extends MinhasPlantasData {
 		}
 
 		return plantNames;
+	}
+
+	Connection connect(String url) {
+		return Jsoup.connect(url);
 	}
 }

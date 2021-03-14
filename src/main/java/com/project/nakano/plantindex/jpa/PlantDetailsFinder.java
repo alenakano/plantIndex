@@ -3,6 +3,7 @@ package com.project.nakano.plantindex.jpa;
 import java.io.IOException;
 
 import org.apache.commons.collections4.map.MultiValueMap;
+import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +22,7 @@ public class PlantDetailsFinder extends MinhasPlantasData {
 			String url = minhasPlantas + plantURL;
 
 			// GET html e tratar retirando tags publicitárias
-			doc = Jsoup.connect(url).get();
+			doc = connect(url).get();
 			doc.select("h2:contains(CONTEÚDO PUBLICITÁRIO)," + " h2:contains(Minhas Plantas recomenda)," + " script,"
 					+ " ins").remove();
 			doc.select("div.Text").last().remove();
@@ -50,8 +51,10 @@ public class PlantDetailsFinder extends MinhasPlantasData {
 		} catch (HttpStatusException e) {
 			System.out.println(e);
 		}
-
 		return map;
-
+	}
+	
+	Connection connect(String url) {
+		return Jsoup.connect(url);
 	}
 }

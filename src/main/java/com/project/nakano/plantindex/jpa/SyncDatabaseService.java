@@ -31,11 +31,14 @@ public class SyncDatabaseService {
 	@Autowired
 	private OrigemRepository origemRepository;
 	
-	PlantNamesFinder plantNamesFinder = new PlantNamesFinder();
+	@Autowired
+	private PlantNamesFinder plantNamesFinder;
 	
-	PlantDetailsFinder plantDetailsFinder = new PlantDetailsFinder();
+	@Autowired
+	private PlantDetailsFinder plantDetailsFinder;
 	
-	PlantDetailsBuilder plantDetailsBuilder = new PlantDetailsBuilder();
+	@Autowired
+	PlantDetailsBuilder plantDetailsBuilder;
 	
 	public ResponseEntity<?> syncDatabase(String categoria) {
 
