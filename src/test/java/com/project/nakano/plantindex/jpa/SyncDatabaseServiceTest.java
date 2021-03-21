@@ -12,12 +12,13 @@ import java.util.List;
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -31,25 +32,25 @@ import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
 import com.project.nakano.plantindex.jpa.model.TipoRega;
 
 // MockitoExtension -> Compatível JUnit 5
-//@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class)
 //A partir do Spring 2.1, Não é mais necessário o ExtendWith
-@SpringBootTest
+//@SpringBootTest
 class SyncDatabaseServiceTest {
 
 	@Mock
-	CategoriaRepository categoriaMock;
+	CategoriaRepository categoriaRepository;
 	
 	@Mock
-	PlantRepository plantMock;
+	PlantRepository plantRepository;
 	
 	@Mock
-	OutroNomeRepository outroMock;
+	OutroNomeRepository outroNomeRepository;
 	
 	@Captor
 	private ArgumentCaptor<PlantDetails> plantDetailsCaptor;
 	
 	@Mock
-	OrigemRepository origemMock;
+	OrigemRepository origemRepository;
 	
 	@Mock
 	PlantDetailsFinder plantDetailsFinder;
@@ -101,7 +102,7 @@ class SyncDatabaseServiceTest {
 		outro.add(new OutroNome("pimentão-comum"));
 		
 		List<TipoEstacoesAno> flor = new ArrayList<>();
-		flor.add(TipoEstacoesAno.ANOTODO);
+		flor.add(TipoEstacoesAno.TODO);
 		
 		List<Origem> or = new ArrayList<>();
 		or.add(new Origem("Américas"));
@@ -114,7 +115,7 @@ class SyncDatabaseServiceTest {
 		ilu.add(TipoIluminacao.MEIASOMBRA);
 		
 		List<TipoEstacoesAno> pla = new ArrayList<>();
-		pla.add(TipoEstacoesAno.ANOTODO);
+		pla.add(TipoEstacoesAno.TODO);
 		
 		Categoria cat = new Categoria("hortaliças");
 		
@@ -154,14 +155,14 @@ class SyncDatabaseServiceTest {
 		
 		//THEN
 		assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
-		verify(outroMock, times(1)).findByNome("pimentão-comum");
-		verify(outroMock, times(1)).save(Mockito.any(OutroNome.class));
-		verify(origemMock, times(1)).findByNome("Américas");
-		verify(origemMock, times(1)).save(Mockito.any(Origem.class));
-		verify(categoriaMock, times(1)).findByNome("hortaliças");
-		verify(categoriaMock, times(1)).save(Mockito.any(Categoria.class));
-		verify(plantMock, times(1)).findByNome("Pimentão");
-		verify(plantMock, times(1)).save(Mockito.any(PlantDetails.class));
+		verify(outroNomeRepository, times(1)).findByNome("pimentão-comum");
+		verify(outroNomeRepository, times(1)).save(Mockito.any(OutroNome.class));
+		verify(origemRepository, times(1)).findByNome("Américas");
+		verify(origemRepository, times(1)).save(Mockito.any(Origem.class));
+		verify(categoriaRepository, times(1)).findByNome("hortaliças");
+		verify(categoriaRepository, times(1)).save(Mockito.any(Categoria.class));
+		verify(plantRepository, times(1)).findByNome("Pimentão");
+		verify(plantRepository, times(1)).save(Mockito.any(PlantDetails.class));
 	}
 	
 	@Test
@@ -184,35 +185,31 @@ class SyncDatabaseServiceTest {
 		when(plantNamesFinder.searchPlantNames(Mockito.anyString())).thenReturn(namesPlant);
 		when(plantDetailsFinder.searchPlantDetails("/pimentao/")).thenReturn(map);
 		when(plantDetailsBuilder.setRecoveredPlantDetails(map)).thenReturn(plant);
-		when(plantMock.findByNome("Pimentão")).thenReturn(plantTeste);
-		when(outroMock.findByNome("pimentão-comum")).thenReturn(outroNomeTeste);
-		when(origemMock.findByNome("Américas")).thenReturn(origemTeste);
-		when(categoriaMock.findByNome("hortaliças")).thenReturn(categoriaTeste);
+		when(plantRepository.findByNome("Pimentão")).thenReturn(plantTeste);
+		when(outroNomeRepository.findByNome("pimentão-comum")).thenReturn(outroNomeTeste);
+		when(origemRepository.findByNome("Américas")).thenReturn(origemTeste);
+		when(categoriaRepository.findByNome("hortaliças")).thenReturn(categoriaTeste);
 		
 		ResponseEntity<?> res = syncDatabaseService.syncDatabase("teste");
 		
 		//THEN
 		
 		// Captura valor salvo ao chamar o método
-		verify(plantMock).save(plantDetailsCaptor.capture());
+		verify(plantRepository).save(plantDetailsCaptor.capture());
 		
 		assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
 		
 		// Atualizou OutroNome existente
-		verify(outroMock, times(1)).findByNome("pimentão-comum");
-		verify(outroMock, times(0)).save(Mockito.any(OutroNome.class));
-
+		verify(outroNomeRepository, times(1)).findByNome("pimentão-comum");
 		
 		// Atualizou Origem existente
-		verify(origemMock, times(1)).findByNome("Américas");
-		verify(origemMock, times(0)).save(Mockito.any(Origem.class));
+		verify(origemRepository, times(1)).findByNome("Américas");
 		
 		// Atualizou Categoria existente
-		verify(categoriaMock, times(1)).findByNome("hortaliças");
-		verify(categoriaMock, times(0)).save(Mockito.any(Categoria.class));
+		verify(categoriaRepository, times(1)).findByNome("hortaliças");
 
 		// Atualizou Planta com dados existentes
-		verify(plantMock, times(1)).save(Mockito.any(PlantDetails.class));
+		verify(plantRepository, times(1)).save(Mockito.any(PlantDetails.class));
 		assertThat(plantDetailsCaptor.getValue().getId()).isEqualTo(plantTeste.getId());
 		
 	}

@@ -80,33 +80,43 @@ public class SyncDatabaseService {
 		return ResponseEntity.ok().body("Sucesso");
 	}
 	
-	private void insertIntoCategoriaTable(PlantDetails plantDetails) {
-		Categoria categoria = plantDetails.getCategoria();
-		Categoria cat = categoriaRepository.findByNome(categoria.getNome());
-		if(Objects.isNull(cat)) {
-			categoriaRepository.save(categoria);
-		}
-	}
-	
-	private void insertIntoOrigemTable(PlantDetails plantDetails) {
-		List<Origem> nomes = plantDetails.getOrigem();
-		for (Origem origem : nomes) {
-			Origem or = origemRepository.findByNome(origem.getNome());
-				if(Objects.isNull(or)) {
-					origemRepository.save(origem);
-				}
-		}
-	}
-	
-	private void insertIntoOutroNomeTable(PlantDetails plant) {
-		List<OutroNome> nomes = plant.getOutrosNomes();
-		for (OutroNome outroNome : nomes) {
-			OutroNome nome = outroNomeRepository.findByNome(outroNome.getNome());
-			if(Objects.isNull(nome)) { 
-				outroNomeRepository.save(outroNome);
-			}
-				
-		}
-	}
+	 private void insertIntoCategoriaTable(PlantDetails plantDetails) {
+	    Categoria categoria = plantDetails.getCategoria();
+	    Categoria cat = categoriaRepository.findByNome(categoria.getNome());
+	    
+	    if(Objects.isNull(cat)) {
+	      categoriaRepository.save(categoria);
+	    } else {
+	      categoria.setId(cat.getId());
+	      categoriaRepository.save(categoria);
+	    }
+	  }
+	  
+	  private void insertIntoOrigemTable(PlantDetails plantDetails) {
+	    List<Origem> nomes = plantDetails.getOrigem();
+	    for (Origem origem : nomes) {
+	      Origem or = origemRepository.findByNome(origem.getNome());
+	        if(Objects.isNull(or)) {
+	          origemRepository.save(origem);
+	        } else {
+	          origem.setId(or.getId());
+	          origemRepository.save(origem);
+	        }
+	    }
+	  }
+	  
+	  private void insertIntoOutroNomeTable(PlantDetails plant) {
+	    List<OutroNome> nomes = plant.getOutrosNomes();
+	    for (OutroNome outroNome : nomes) {
+	      OutroNome nome = outroNomeRepository.findByNome(outroNome.getNome());
+	      if(Objects.isNull(nome)) { 
+	        outroNomeRepository.save(outroNome);
+	      } else {
+	        outroNome.setId(nome.getId());
+	        outroNomeRepository.save(outroNome);
+	      }
+	        
+	    }
+	  }
 	
 }

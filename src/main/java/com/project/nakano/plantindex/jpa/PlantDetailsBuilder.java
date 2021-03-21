@@ -125,32 +125,32 @@ public class PlantDetailsBuilder {
     return enumParser.getListEnum();
 	}
 
-	private List<TipoEstacoesAno> floracaoParser(String estText) {
-	  EnumParser<TipoEstacoesAno> enumParser = new EnumParser<>(TipoEstacoesAno.class, estText);
+	private List<TipoEstacoesAno> floracaoParser(String floracao) {
+	  EnumParser<TipoEstacoesAno> enumParser = new EnumParser<>(TipoEstacoesAno.class, floracao);
     return enumParser.getListEnum();
 	}
 	
-	private List<TipoEstacoesAno> plantioParser(String estText) {
-	  EnumParser<TipoEstacoesAno> enumParser = new EnumParser<>(TipoEstacoesAno.class, estText);
+	private List<TipoEstacoesAno> plantioParser(String plantios) {
+	  EnumParser<TipoEstacoesAno> plantio = new EnumParser<>(TipoEstacoesAno.class, plantios);
+	  return plantio.getListEnum();
+	}
+
+	private Boolean setPerfumada(String perfumada) {
+		return perfumada.contains("sim");
+	}
+
+	private Boolean setFrutoComestivel(String frutos) {
+		return frutos.matches("^comestíveis$");
+	}
+
+	private List<TipoIluminacao> iluminacaoParser(String iluminacao) {
+	  iluminacao = iluminacao.replace("meia sombra", "meiasombra");
+	  EnumParser<TipoIluminacao> enumParser = new EnumParser<>(TipoIluminacao.class, iluminacao);
 	  return enumParser.getListEnum();
 	}
 
-	private Boolean setPerfumada(String per) {
-		return per.contains("sim");
-	}
-
-	private Boolean setFrutoComestivel(String fru) {
-		return fru.matches("^comestíveis$");
-	}
-
-	private List<TipoIluminacao> iluminacaoParser(String ilu) {
-	  ilu = ilu.replace("meia sombra", "meiasombra");
-	  EnumParser<TipoIluminacao> enumParser = new EnumParser<>(TipoIluminacao.class, ilu);
-	  return enumParser.getListEnum();
-	}
-
-	private List<TipoPropagacao> propagacaoParser(String pro) {
-    EnumParser<TipoPropagacao> enumParser = new EnumParser<>(TipoPropagacao.class, pro);
+	private List<TipoPropagacao> propagacaoParser(String propagacao) {
+    EnumParser<TipoPropagacao> enumParser = new EnumParser<>(TipoPropagacao.class, propagacao);
     return enumParser.getListEnum();
 	}
 	
