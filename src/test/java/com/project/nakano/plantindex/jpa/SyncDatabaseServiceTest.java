@@ -162,8 +162,8 @@ class SyncDatabaseServiceTest {
 				syncDatabaseService.syncDatabase("teste");
 				
 				//THEN
-				verify(outroMock, times(1)).findByNome("pimentão-comum");
-				verify(outroMock, times(1)).save(Mockito.any(OutroNome.class));
+				verify(outroNomeRepository, times(1)).findByNome("pimentão-comum");
+				verify(outroNomeRepository, times(1)).save(Mockito.any(OutroNome.class));
 			}
 			
 			@Test
@@ -172,8 +172,8 @@ class SyncDatabaseServiceTest {
 				// WHEN
 				syncDatabaseService.syncDatabase("teste");
 				//THEN
-				verify(origemMock, times(1)).findByNome("Américas");
-				verify(origemMock, times(1)).save(Mockito.any(Origem.class));
+				verify(origemRepository, times(1)).findByNome("Américas");
+				verify(origemRepository, times(1)).save(Mockito.any(Origem.class));
 			}
 			
 			@Test
@@ -183,8 +183,8 @@ class SyncDatabaseServiceTest {
 				syncDatabaseService.syncDatabase("teste");
 				
 				//THEN
-				verify(categoriaMock, times(1)).findByNome("hortaliças");
-				verify(categoriaMock, times(1)).save(Mockito.any(Categoria.class));
+				verify(categoriaRepository, times(1)).findByNome("hortaliças");
+				verify(categoriaRepository, times(1)).save(Mockito.any(Categoria.class));
 			}
 			
 			@Test
@@ -196,8 +196,8 @@ class SyncDatabaseServiceTest {
 				
 				//THEN
 				assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
-				verify(plantMock, times(1)).findByNome("Pimentão");
-				verify(plantMock, times(1)).save(Mockito.any(PlantDetails.class));
+				verify(plantRepository, times(1)).findByNome("Pimentão");
+				verify(plantRepository, times(1)).save(Mockito.any(PlantDetails.class));
 			}
 		}
 		@Nested
@@ -217,7 +217,7 @@ class SyncDatabaseServiceTest {
 				//GIVEN
 				OutroNome outroNomeTeste = new OutroNome("pimentão-comum");
 				outroNomeTeste.setId(5L);		
-				given(outroMock.findByNome("pimentão-comum")).willReturn(outroNomeTeste);
+				given(outroNomeRepository.findByNome("pimentão-comum")).willReturn(outroNomeTeste);
 			
 				// WHEN
 				syncDatabaseService.syncDatabase("teste");
@@ -225,8 +225,8 @@ class SyncDatabaseServiceTest {
 				//THEN
 
 				// Atualizou OutroNome existente
-				verify(outroMock, times(1)).findByNome("pimentão-comum");
-				then(outroMock).should(never()).save(Mockito.any(OutroNome.class));
+				verify(outroNomeRepository, times(1)).findByNome("pimentão-comum");
+				then(outroNomeRepository).should(times(1)).save(Mockito.any(OutroNome.class));
 				
 			}
 			
@@ -236,14 +236,14 @@ class SyncDatabaseServiceTest {
 				//GIVEN
 				Origem origemTeste = new Origem("Américas");
 				origemTeste.setId(10L);
-				given(origemMock.findByNome("Américas")).willReturn(origemTeste);
+				given(origemRepository.findByNome("Américas")).willReturn(origemTeste);
 				
 				// WHEN
 				syncDatabaseService.syncDatabase("teste");			
 				
 				// THEN
-				verify(origemMock, times(1)).findByNome("Américas");
-				then(origemMock).should(never()).save(Mockito.any(Origem.class));
+				verify(origemRepository, times(1)).findByNome("Américas");
+				then(origemRepository).should(times(1)).save(Mockito.any(Origem.class));
 			}
 			
 			@Test
@@ -252,14 +252,14 @@ class SyncDatabaseServiceTest {
 				//GIVEN
 				Categoria categoriaTeste = new Categoria("hortaliças");
 				categoriaTeste.setId(9L);
-				given(categoriaMock.findByNome("hortaliças")).willReturn(categoriaTeste);
+				given(categoriaRepository.findByNome("hortaliças")).willReturn(categoriaTeste);
 				
 				// WHEN
 				syncDatabaseService.syncDatabase("teste");	
 				
 				// THEN
-				then(categoriaMock).should(times(1)).findByNome("hortaliças");
-				then(categoriaMock).should(never()).save(Mockito.any(Categoria.class));
+				then(categoriaRepository).should(times(1)).findByNome("hortaliças");
+				then(categoriaRepository).should(times(1)).save(Mockito.any(Categoria.class));
 			}
 			
 			@Test
@@ -268,16 +268,16 @@ class SyncDatabaseServiceTest {
 				//GIVEN
 				PlantDetails plantTeste = new PlantDetails(plant);
 				plantTeste.setId(14L);
-				given(plantMock.findByNome("Pimentão")).willReturn(plantTeste);
+				given(plantRepository.findByNome("Pimentão")).willReturn(plantTeste);
 				
 				// WHEN
 				ResponseEntity<?> res = syncDatabaseService.syncDatabase("teste");	
 				
 				// THEN
-				then(plantMock).should().save(plantDetailsCaptor.capture());
+				then(plantRepository).should().save(plantDetailsCaptor.capture());
 				assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
 				// Atualizou Planta com dados existentes
-				then(plantMock).should(times(1)).save(Mockito.any(PlantDetails.class));
+				then(plantRepository).should(times(1)).save(Mockito.any(PlantDetails.class));
 				assertThat(plantDetailsCaptor.getValue().getId()).isEqualTo(plantTeste.getId());
 			}
 		}	
