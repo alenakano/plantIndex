@@ -39,19 +39,19 @@ import com.project.nakano.plantindex.jpa.model.TipoRega;
 class SyncDatabaseServiceTest {
 
 	@Mock
-	CategoriaRepository categoriaMock;
+	CategoriaRepository categoriaRepository;
 	
 	@Mock
-	PlantRepository plantMock;
+	PlantRepository plantRepository;
 	
 	@Mock
-	OutroNomeRepository outroMock;
+	OutroNomeRepository outroNomeRepository;
 	
 	@Captor
 	private ArgumentCaptor<PlantDetails> plantDetailsCaptor;
 	
 	@Mock
-	OrigemRepository origemMock;
+	OrigemRepository origemRepository;
 	
 	@Mock
 	PlantDetailsFinder plantDetailsFinder;
@@ -101,7 +101,7 @@ class SyncDatabaseServiceTest {
 		outro.add(new OutroNome("pimentão-comum"));
 		
 		List<TipoEstacoesAno> flor = new ArrayList<>();
-		flor.add(TipoEstacoesAno.ANOTODO);
+		flor.add(TipoEstacoesAno.TODO);
 		
 		List<Origem> or = new ArrayList<>();
 		or.add(new Origem("Américas"));
@@ -114,7 +114,7 @@ class SyncDatabaseServiceTest {
 		ilu.add(TipoIluminacao.MEIASOMBRA);
 		
 		List<TipoEstacoesAno> pla = new ArrayList<>();
-		pla.add(TipoEstacoesAno.ANOTODO);
+		pla.add(TipoEstacoesAno.TODO);
 		
 		Categoria cat = new Categoria("hortaliças");
 		

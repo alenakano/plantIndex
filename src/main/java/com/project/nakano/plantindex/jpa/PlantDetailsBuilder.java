@@ -29,7 +29,7 @@ public class PlantDetailsBuilder {
 
 		String genero = this.extractStringFromMap(map, "Gênero");
 
-		TipoRega rega = this.regaParser(this.extractStringFromMap(map, "Rega"));
+		TipoRega rega = this.regaParser(this.extractStringFromMap(map, "Rega")).get(0);
 
 		String tamanho = this.extractStringFromMap(map,"Tamanho");
 
@@ -88,7 +88,6 @@ public class PlantDetailsBuilder {
 	}
 
 	private List<OutroNome> outroNomeParser(ArrayList<String> outrosNomes) {
-
 		List<OutroNome> names = new ArrayList<>();
 		if (!Objects.isNull(outrosNomes)) {
 			outrosNomes.forEach(s -> {
@@ -121,83 +120,38 @@ public class PlantDetailsBuilder {
 		return names;
 	}
 	
-	private TipoRega regaParser(String rega) {
-		if (rega.contains("pouca"))
-			return TipoRega.POUCA;
-		if (rega.contains("muita"))
-			return TipoRega.MUITA;
-		return TipoRega.MEDIA;
+	private List<TipoRega> regaParser(String rega) {
+	  EnumParser<TipoRega> enumParser = new EnumParser<>(TipoRega.class, rega);
+    return enumParser.getListEnum();
 	}
 
-	private List<TipoEstacoesAno> floracaoParser(String estText) {
-		List<TipoEstacoesAno> floracao = new ArrayList<>();
-		if (estText.contains("primavera"))
-			floracao.add(TipoEstacoesAno.PRIMAVERA);
-		if (estText.contains("verão"))
-			floracao.add(TipoEstacoesAno.VERAO);
-		if (estText.contains("outono"))
-			floracao.add(TipoEstacoesAno.OUTONO);
-		if (estText.contains("inverno"))
-			floracao.add(TipoEstacoesAno.INVERNO);
-		if (estText.contains("todo"))
-			floracao.add(TipoEstacoesAno.ANOTODO);
-		if (estText.contains("sem"))
-			floracao.add(TipoEstacoesAno.SEM);
-
-		return floracao;
+	private List<TipoEstacoesAno> floracaoParser(String floracao) {
+	  EnumParser<TipoEstacoesAno> enumParser = new EnumParser<>(TipoEstacoesAno.class, floracao);
+    return enumParser.getListEnum();
 	}
 	
-	private List<TipoEstacoesAno> plantioParser(String estText) {
-		List<TipoEstacoesAno> plantio = new ArrayList<>();
-		if (estText.contains("primavera"))
-			plantio.add(TipoEstacoesAno.PRIMAVERA);
-		if (estText.contains("verão"))
-			plantio.add(TipoEstacoesAno.VERAO);
-		if (estText.contains("outono"))
-			plantio.add(TipoEstacoesAno.OUTONO);
-		if (estText.contains("inverno"))
-			plantio.add(TipoEstacoesAno.INVERNO);
-		if (estText.contains("todo"))
-			plantio.add(TipoEstacoesAno.ANOTODO);
-		if (estText.contains("sem"))
-			plantio.add(TipoEstacoesAno.SEM);
-
-		return plantio;
+	private List<TipoEstacoesAno> plantioParser(String plantios) {
+	  EnumParser<TipoEstacoesAno> plantio = new EnumParser<>(TipoEstacoesAno.class, plantios);
+	  return plantio.getListEnum();
 	}
 
-	private Boolean setPerfumada(String per) {
-		return per.contains("sim");
+	private Boolean setPerfumada(String perfumada) {
+		return perfumada.contains("sim");
 	}
 
-	private Boolean setFrutoComestivel(String fru) {
-		return fru.matches("^comestíveis$");
+	private Boolean setFrutoComestivel(String frutos) {
+		return frutos.matches("^comestíveis$");
 	}
 
-	private List<TipoIluminacao> iluminacaoParser(String ilu) {
-		List<TipoIluminacao> iluminacao = new ArrayList<>();
-
-		if (ilu.contains("meia"))
-			iluminacao.add(TipoIluminacao.MEIASOMBRA);
-		if (ilu.contains("sol"))
-			iluminacao.add(TipoIluminacao.SOLPLENO);
-		if (ilu.contains("meia sombra sombra"))
-			iluminacao.add(TipoIluminacao.SOMBRA);
-		return iluminacao;
+	private List<TipoIluminacao> iluminacaoParser(String iluminacao) {
+	  iluminacao = iluminacao.replace("meia sombra", "meiasombra");
+	  EnumParser<TipoIluminacao> enumParser = new EnumParser<>(TipoIluminacao.class, iluminacao);
+	  return enumParser.getListEnum();
 	}
 
-	private List<TipoPropagacao> propagacaoParser(String pro) {
-		List<TipoPropagacao> propagacao = new ArrayList<>();
-		if (pro.contains("bulbo"))
-			propagacao.add(TipoPropagacao.BULBO);
-		if (pro.contains("estaca"))
-			propagacao.add(TipoPropagacao.ESTACA);
-		if (pro.contains("muda"))
-			propagacao.add(TipoPropagacao.MUDA);
-		if (pro.contains("semente"))
-			propagacao.add(TipoPropagacao.SEMENTE);
-		if (pro.contains("touceira"))
-			propagacao.add(TipoPropagacao.TOUCEIRA);
-		return propagacao;
+	private List<TipoPropagacao> propagacaoParser(String propagacao) {
+    EnumParser<TipoPropagacao> enumParser = new EnumParser<>(TipoPropagacao.class, propagacao);
+    return enumParser.getListEnum();
 	}
 	
 }
