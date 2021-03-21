@@ -24,10 +24,10 @@ class PlantDetailsBuilderTest {
 		map = new MultiValueMap<>();
 		map.put("Outros nomes", "pimentão-comum");
 		map.put("Ordem", "Solanales");
-		map.put("Floração", "todo");
+		map.put("Floração", "o ano todo");
 		map.put("Gênero", "Capsicum");
 		map.put("Nome popular", "pimentão");
-		map.put("Rega", "muita");
+		map.put("Rega", "muita água");
 		map.put("Tamanho", "até 40 cm");
 		map.put("Perfumada", "não");
 		map.put("Tribo", "Capsiceae");

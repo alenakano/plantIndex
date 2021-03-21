@@ -2,8 +2,6 @@ package com.project.nakano.plantindex.jpa;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +23,7 @@ public class EnumParser<E extends Enum<E>> {
     this.baseList = new ArrayList<>();
     for (String f : fields) {
       try {
-        this.baseList.add(Enum.valueOf(this.enumName, StringUtils.stripAccents(f.toUpperCase())));
+        this.baseList.add(Enum.valueOf(this.enumName, f));
       } catch (Exception e) {
         LOGGER.debug("Error on parsing enum", e);
       }      

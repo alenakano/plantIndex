@@ -3,8 +3,10 @@ package com.project.nakano.plantindex.jpa;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import org.apache.commons.collections4.map.MultiValueMap;
+import org.apache.commons.lang3.StringUtils;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
 import com.project.nakano.plantindex.jpa.model.Origem;
@@ -18,6 +20,7 @@ import com.project.nakano.plantindex.jpa.model.TipoRega;
 public class PlantDetailsBuilder {
 	
 	PlantDetails setRecoveredPlantDetails(MultiValueMap<String, String> map) {
+	  System.out.println(map.toString());
 		
 		String nome = this.extractStringFromMap(map, "Nome popular");
 
@@ -121,18 +124,15 @@ public class PlantDetailsBuilder {
 	}
 	
 	private List<TipoRega> regaParser(String rega) {
-	  EnumParser<TipoRega> enumParser = new EnumParser<>(TipoRega.class, rega);
-    return enumParser.getListEnum();
+	  return new EnumParser<>(TipoRega.class, this.formatString(rega)).getListEnum();
 	}
 
 	private List<TipoEstacoesAno> floracaoParser(String floracao) {
-	  EnumParser<TipoEstacoesAno> enumParser = new EnumParser<>(TipoEstacoesAno.class, floracao);
-    return enumParser.getListEnum();
+	  return new EnumParser<>(TipoEstacoesAno.class, this.formatString(floracao)).getListEnum();
 	}
 	
 	private List<TipoEstacoesAno> plantioParser(String plantios) {
-	  EnumParser<TipoEstacoesAno> plantio = new EnumParser<>(TipoEstacoesAno.class, plantios);
-	  return plantio.getListEnum();
+	  return new EnumParser<>(TipoEstacoesAno.class, this.formatString(plantios)).getListEnum();
 	}
 
 	private Boolean setPerfumada(String perfumada) {
@@ -144,14 +144,42 @@ public class PlantDetailsBuilder {
 	}
 
 	private List<TipoIluminacao> iluminacaoParser(String iluminacao) {
-	  iluminacao = iluminacao.replace("meia sombra", "meiasombra");
-	  EnumParser<TipoIluminacao> enumParser = new EnumParser<>(TipoIluminacao.class, iluminacao);
-	  return enumParser.getListEnum();
+	  return new EnumParser<>(TipoIluminacao.class, this.formatString(iluminacao)).getListEnum();
 	}
 
 	private List<TipoPropagacao> propagacaoParser(String propagacao) {
-    EnumParser<TipoPropagacao> enumParser = new EnumParser<>(TipoPropagacao.class, propagacao);
-    return enumParser.getListEnum();
+    return new EnumParser<>(TipoPropagacao.class, this.formatString(propagacao)).getListEnum();
 	}
 	
+	private String formatString(String field) {
+	  // Remover conectores
+	  Pattern conectors = Pattern.compile("^o\\s|^por|\\s+(o|da|de|por|e por|e)\\s+|,", Pattern.CANON_EQ);
+	  field = conectors.matcher(field).replaceAll(" ");
+	  
+	  // Remover palavras não utilizadas
+	  Pattern words = Pattern.compile("divisão|água|ano|pleno", Pattern.CANON_EQ);
+	  field = words
+	      .matcher(field)
+	      .replaceAll(" ")
+	      .trim()
+	      .replaceAll("\s+", " ");
+	  // Retorna sem acento e maiúscula
+	  return StringUtils.stripAccents(field.toUpperCase());
+	}
+	
+//	public static void main(String[] args) {
+//	  PlantDetailsBuilder planta = new PlantDetailsBuilder();
+//	  String teste = "o ano todo";
+//	  String teste2 = "por muda e por semente";
+//    String teste3 = "por bulbo, por divisão de touceira e por semente";
+//    String teste4 = "por divisão de touceira, por estaca e por semente";
+//    String teste5 = "muita água";
+//    String teste6 = "meia sombra sombra sol pleno";
+//    System.out.println(planta.formatString(teste));
+//    System.out.println(planta.formatString(teste2));
+//    System.out.println(planta.formatString(teste3));
+//    System.out.println(planta.formatString(teste4));
+//    System.out.println(planta.formatString(teste5));
+//    System.out.println(planta.formatString(teste6));
+//  }
 }

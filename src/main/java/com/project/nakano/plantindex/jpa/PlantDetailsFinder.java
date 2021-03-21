@@ -9,7 +9,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PlantDetailsFinder extends MinhasPlantasData {
 
 	public MultiValueMap<String, String> searchPlantDetails(String plantURL) throws IOException {
