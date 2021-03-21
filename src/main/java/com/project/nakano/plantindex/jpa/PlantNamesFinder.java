@@ -31,7 +31,7 @@ public class PlantNamesFinder extends MinhasPlantasData {
   
       // URL e contador da paginacao
       String baseUrl = categoria.isEmpty() ? minhasPlantas + "/plantas"
-          minhasPlantas + "/plantas/categorias/" + categoria + "";
+          : minhasPlantas + "/plantas/categorias/" + categoria + "";
       Integer paginationCounter = 1;
   
       do {
