@@ -162,7 +162,7 @@ public class PlantDetailsBuilder {
 	      .matcher(field)
 	      .replaceAll(" ")
 	      .trim()
-	      .replaceAll("\s+", " ");
+	      .replaceAll("\\s+", " ");
 	  // Retorna sem acento e maiúscula
 	  return StringUtils.stripAccents(field.toUpperCase());
 	}
