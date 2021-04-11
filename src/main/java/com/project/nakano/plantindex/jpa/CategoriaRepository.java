@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface CategoriaRepository extends CrudRepository<Categoria, Long> {
+public interface CategoriaRepository extends CrudRepository<Categoria, Long>, FindByNome<Categoria> {
 
   public Categoria findByNome(String nome);
 
