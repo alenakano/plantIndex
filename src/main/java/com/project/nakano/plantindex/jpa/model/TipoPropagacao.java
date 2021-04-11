@@ -1,19 +1,26 @@
 package com.project.nakano.plantindex.jpa.model;
 
-public enum TipoPropagacao {
-  ESTACA(1L),
-  TOUCEIRA(2L),
-  MUDA(3L),
-  SEMENTE(4L),
-  BULBO(5L);
+import java.util.Optional;
+
+public enum TipoPropagacao implements ParseableEnum<TipoPropagacao> {
+  ESTACA("estaca"),
+  TOUCEIRA("touceira"),
+  MUDA("muda"),
+  SEMENTE("semente"),
+  BULBO("bulbo");
   
-  private final Long value;
+  private final String value;
   
-  TipoPropagacao(Long value) {
+  TipoPropagacao(String value) {
     this.value = value;
   }
   
-  public Long getValue() {
+  public String getValue() {
     return this.value;
+  }
+  
+  @Override
+  public Optional<String> getParsePattern() {
+    return Optional.ofNullable(this.value);
   }
 }
