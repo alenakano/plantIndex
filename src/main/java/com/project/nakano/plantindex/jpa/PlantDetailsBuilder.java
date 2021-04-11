@@ -123,19 +123,28 @@ public class PlantDetailsBuilder {
   
   private List<TipoRega> regaParser(String rega) {
     List<TipoRega> regaList = new ArrayList<>();
-    EnumParser.getInstance(TipoRega.class).parseEnums(rega).forEach(regaList::add);
+    EnumParser
+      .getInstance(TipoRega.class)
+      .parseEnums(rega)
+      .forEach(regaList::add);
     return regaList;
   }
   
   private List<TipoEstacoesAno> floracaoParser(String floracao) {
     List<TipoEstacoesAno> floracaoList = new ArrayList<>();
-    EnumParser.getInstance(TipoEstacoesAno.class).parseEnums(floracao).forEach(floracaoList::add);
+    EnumParser
+      .getInstance(TipoEstacoesAno.class)
+      .parseEnums(floracao)
+      .forEach(floracaoList::add);
     return floracaoList;
   }
   
   private List<TipoEstacoesAno> plantioParser(String plantios) {
     List<TipoEstacoesAno> plantioList = new ArrayList<>();
-    EnumParser.getInstance(TipoEstacoesAno.class).parseEnums(plantios).forEach(plantioList::add);
+    EnumParser
+      .getInstance(TipoEstacoesAno.class)
+      .parseEnums(plantios)
+      .forEach(plantioList::add);
     return plantioList;
   }
   
@@ -151,7 +160,8 @@ public class PlantDetailsBuilder {
     List<TipoIluminacao> iluminacaoList = new ArrayList<>();
     EnumParser
       .getInstance(TipoIluminacao.class)
-      .parseEnums(iluminacao).forEach(iluminacaoList::add);;
+      .parseEnums(iluminacao)
+      .forEach(iluminacaoList::add);;
     return iluminacaoList;
   }
   
@@ -159,7 +169,8 @@ public class PlantDetailsBuilder {
     List<TipoPropagacao> propagacaoList = new ArrayList<>();
     EnumParser
       .getInstance(TipoPropagacao.class)
-      .parseEnums(propagacao).forEach(propagacaoList::add);
+      .parseEnums(propagacao)
+      .forEach(propagacaoList::add);
     return propagacaoList;
   }
 
