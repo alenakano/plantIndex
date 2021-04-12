@@ -1,36 +1,61 @@
 package com.project.nakano.plantindex.jpa;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.slf4j.Logger;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.slf4j.LoggerFactory;
+import com.project.nakano.plantindex.jpa.model.ParseableEnum;
 
-public class EnumParser<E extends Enum<E>> {
+import ch.qos.logback.classic.Logger;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(EnumParser.class);
-  
-  private Class<E> enumName;
-  private List<E> baseList;
- 
-  
-  EnumParser(Class<E> enumName, String fields) {
-    this.enumName = enumName;
-    setListEnum(fields);
+class EnumParser<E extends Enum<E> & ParseableEnum<E>> {
+  private static final Logger LOGGER = (Logger) LoggerFactory.getLogger(EnumParser.class);
+  private static final Map<Class<?>, EnumParser<?>> PARSERS = new ConcurrentHashMap<>();
+  private Class<E> enumClass;
+  private Map<E, Pattern> patterns;
+
+  EnumParser(Class<E> enumClass) {
+    this.enumClass = enumClass;
+    this.initPatterns();
   }
-  
-  private void setListEnum(String field) {
-    String[] fields = field.trim().split(" ");
-    this.baseList = new ArrayList<>();
-    for (String f : fields) {
+
+  private void initPatterns() {
+    this.patterns = new EnumMap<>(this.enumClass);
+    for (E value : this.enumClass.getEnumConstants()) {
+      Pattern pattern;
       try {
-        this.baseList.add(Enum.valueOf(this.enumName, f));
-      } catch (Exception e) {
-        LOGGER.debug("Error on parsing enum", e);
-      }      
+        pattern = Pattern.compile(value.getParsePattern().orElse(value.name()), Pattern.CASE_INSENSITIVE);
+      } catch (PatternSyntaxException e) {
+        LOGGER.warn("Error on enum parse pattern for {}. Using name.", value);
+        LOGGER.debug("Enum parse pattern error.", e);
+        pattern = Pattern.compile(value.name(), Pattern.CASE_INSENSITIVE);
+      }
+      this.patterns.put(value, pattern);
     }
   }
-  
-  public List<E> getListEnum() {
-    return this.baseList;
+
+  public static <T extends Enum<T> & ParseableEnum<T>> EnumParser<T> getInstance(Class<T> enumClass) {
+    return (EnumParser<T>) PARSERS.computeIfAbsent(enumClass, EnumParser::new);
+  }
+
+  public Set<E> parseEnums(String input) {
+    return this.findKeys(input).collect(Collectors.toCollection(() -> EnumSet.noneOf(this.enumClass)));
+  }
+
+  public Optional<E> parseEnum(String input) {
+    return this.findKeys(input).findFirst();
+  }
+
+  private Stream<E> findKeys(String input) {
+    return this.patterns.entrySet().stream().filter(entry -> entry.getValue().matcher(input).find()).map(Entry::getKey);
   }
 }

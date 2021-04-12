@@ -1,23 +1,31 @@
 package com.project.nakano.plantindex.jpa.model;
 
-public enum TipoRega {
-  POUCA(1L),
-  MEDIA(2L),
-  MUITA(3L);
-  
-  private long rega;
+import java.util.Optional;
 
-  TipoRega(long rega) {
+public enum TipoRega implements ParseableEnum<TipoRega> {
+  POUCA("pouca"),
+  MEDIA("média"),
+  MUITA("muita");
+  
+  private String rega;
+
+  TipoRega(String rega) {
     this.setRega(rega);
   }
 
-  public long getRega() {
+  public String getRega() {
     return rega;
   }
 
-  public void setRega(long rega) {
+  public void setRega(String rega) {
     this.rega = rega;
   }
+  
+  @Override
+  public Optional<String> getParsePattern() {
+    return Optional.ofNullable(this.rega);
+  }
+  
 }
 
 
