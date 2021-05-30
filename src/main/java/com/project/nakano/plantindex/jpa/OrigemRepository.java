@@ -4,8 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.project.nakano.plantindex.jpa.model.Origem;
 
-public interface OrigemRepository extends CrudRepository<Origem, Long> {
+public interface OrigemRepository extends CrudRepository<Origem, Long>, FindByNome<Origem>  {
 
-	Origem findByNome(String nome);
-	
+  Origem findByNome(String nome);
+
 }

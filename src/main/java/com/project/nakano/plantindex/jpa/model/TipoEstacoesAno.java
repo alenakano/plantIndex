@@ -1,20 +1,27 @@
 package com.project.nakano.plantindex.jpa.model;
 
-public enum TipoEstacoesAno {
-	PRIMAVERA(1L),
-	VERAO(2L),
-	OUTONO(3L),
-	INVERNO(4L),
-	ANOTODO(5L),
-	SEM(6L);
-	
-	private final Long value;
-	
-	TipoEstacoesAno(Long value){
-		this.value = value;
-	}
-	
-	public Long getValue(){
-		return this.value;
-	}
+import java.util.Optional;
+
+public enum TipoEstacoesAno implements ParseableEnum<TipoEstacoesAno> {
+  PRIMAVERA("primavera"),
+  VERAO("verão"),
+  OUTONO("outono"),
+  INVERNO("inverno"),
+  TODO("o ano todo"),
+  SEM("sem");
+
+  private String parsePattern;
+  
+  TipoEstacoesAno(String parsePattern) {
+    this.parsePattern = parsePattern;
+  }
+ 
+  public String parseString() {
+    return this.parsePattern;
+  }
+
+  @Override
+  public Optional<String> getParsePattern() {
+    return Optional.ofNullable(this.parsePattern);
+  }
 }
