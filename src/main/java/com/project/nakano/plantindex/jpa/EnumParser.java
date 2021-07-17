@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.LoggerFactory;
+
 import com.project.nakano.plantindex.jpa.model.ParseableEnum;
 
 import ch.qos.logback.classic.Logger;
@@ -23,7 +24,7 @@ class EnumParser<E extends Enum<E> & ParseableEnum<E>> {
   private Class<E> enumClass;
   private Map<E, Pattern> patterns;
 
-  EnumParser(Class<E> enumClass) {
+  EnumParser(Class enumClass) {
     this.enumClass = enumClass;
     this.initPatterns();
   }
