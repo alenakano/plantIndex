@@ -23,7 +23,7 @@ class EnumParser<E extends Enum<E> & ParseableEnum<E>> {
   private Class<E> enumClass;
   private Map<E, Pattern> patterns;
 
-  EnumParser(Class<E> enumClass) {
+  EnumParser(Class enumClass) {
     this.enumClass = enumClass;
     this.initPatterns();
   }
