@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.project.nakano</groupId>
 	<artifactId>plantindex</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>plantindex</name>
 	<description>Projeto de pesquisa de plantas</description>
@@ -24,7 +24,7 @@
 	<scm>
 	  <connection>scm:git:https://github.com/alenakano/plantIndex.git</connection>
 	  
-	  <tag>plantindex-0.0.2</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 
