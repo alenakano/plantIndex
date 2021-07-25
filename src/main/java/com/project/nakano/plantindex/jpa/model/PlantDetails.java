@@ -1,6 +1,5 @@
 package com.project.nakano.plantindex.jpa.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
