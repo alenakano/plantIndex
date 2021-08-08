@@ -14,7 +14,7 @@ public interface PlantRepository extends
 
   PlantDetails findByNome(String nome);
   
-  @Query("SELECT new com.project.nakano.plantindex.jpa.model.SearchResult(p.id, p.nome, SUBSTRING(p.texto, 1, 180)) FROM PlantDetails p WHERE p.nome = ?1")
+  @Query("SELECT new com.project.nakano.plantindex.jpa.model.SearchResult(p.id, p.nome, SUBSTRING(p.texto, 1, 180)) FROM PlantDetails p WHERE p.nome LIKE ?1%")
   List<SearchResult> searchByNome(String nome);
   
   @Query("SELECT new com.project.nakano.plantindex.jpa.model.SearchResult(p.id, p.nome, SUBSTRING(p.texto, 1, 180)) FROM PlantDetails p WHERE p.nome = ?1 AND p.categoria.nome = ?2")
