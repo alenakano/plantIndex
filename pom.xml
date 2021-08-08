@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.project.nakano</groupId>
 	<artifactId>plantindex</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>plantindex</name>
 	<description>Projeto de pesquisa de plantas</description>
