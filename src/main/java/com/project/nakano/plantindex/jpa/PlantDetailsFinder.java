@@ -1,7 +1,8 @@
 package com.project.nakano.plantindex.jpa;
 
 import java.io.IOException;
-import org.apache.commons.collections4.map.MultiValueMap;
+import java.util.HashMap;
+
 import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -9,6 +10,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.MultiValueMap;
 
 @Component
 public class PlantDetailsFinder extends MinhasPlantasData {
@@ -22,13 +25,13 @@ public class PlantDetailsFinder extends MinhasPlantasData {
    * 
    */
   public MultiValueMap<String, String> searchPlantDetails(String plantUrl) throws IOException {
-  
-    MultiValueMap<String, String> map = new MultiValueMap<String, String>();
+ 
+    MultiValueMap<String, String> map = CollectionUtils.toMultiValueMap(new HashMap<>());
   
     try {
       Document doc;
   
-      String url = minhasPlantas + plantUrl;
+      String url = MINHAS_PLANTAS + plantUrl;
   
       // GET html e tratar retirando tags publicitárias
       doc = connect(url).get();
@@ -44,11 +47,11 @@ public class PlantDetailsFinder extends MinhasPlantasData {
   
       // Inserção das informações no MultivalueMap
       for (int i = 0, l = rowsA.size(); i < l; i++) {
-        map.put(rowsA.get(i).getElementsByClass("Label").text(),
+        map.add(rowsA.get(i).getElementsByClass("Label").text(),
             rowsA.get(i).getElementsByClass("Value").text());
       }
       for (int i = 0, l = rowsB.size(); i < l; i++) {
-        map.put(rowsB.get(i).getElementsByClass("Label").text(),
+        map.add(rowsB.get(i).getElementsByClass("Label").text(),
             rowsB.get(i).getElementsByClass("Value").text());
       }
   
@@ -56,7 +59,7 @@ public class PlantDetailsFinder extends MinhasPlantasData {
       Elements text = doc.select("div.Text");
   
       // Inserindo no Map
-      map.put("infos", Jsoup.clean(text.toString(), Whitelist.none().addTags("h2", "h3")));
+      map.add("infos", Jsoup.clean(text.toString(), Whitelist.none().addTags("h2", "h3")));
     } catch (HttpStatusException e) {
       System.out.println(e);
     }

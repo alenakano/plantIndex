@@ -30,13 +30,13 @@ public class PlantNamesFinder extends MinhasPlantasData {
       Document doc;
   
       // URL e contador da paginacao
-      String baseUrl = categoria.isEmpty() ? minhasPlantas + "/plantas"
-          : minhasPlantas + "/plantas/categorias/" + categoria + "";
+      String baseUrl = categoria.isEmpty() ? MINHAS_PLANTAS + "/plantas"
+          : MINHAS_PLANTAS + "/plantas/categorias/" + categoria + "";
       Integer paginationCounter = 1;
   
       do {
         // Paginacao da tela
-        String url = baseUrl + pagination.replaceAll("/paginationCounter/", paginationCounter.toString());
+        String url = baseUrl + PAGINATION.replaceAll("/paginationCounter/", paginationCounter.toString());
         doc = connect(url).get();
         Elements value = doc.select("article.Entry > a:nth-child(2)");
         

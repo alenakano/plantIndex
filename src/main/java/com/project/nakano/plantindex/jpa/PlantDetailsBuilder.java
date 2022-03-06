@@ -9,9 +9,11 @@ import com.project.nakano.plantindex.jpa.model.TipoIluminacao;
 import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
 import com.project.nakano.plantindex.jpa.model.TipoRega;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import org.apache.commons.collections4.map.MultiValueMap;
+
+import org.springframework.util.MultiValueMap;
 
 public class PlantDetailsBuilder {
 
@@ -20,7 +22,7 @@ public class PlantDetailsBuilder {
     String nome = this.extractStringFromMap(map, "Nome popular");
 
     List<OutroNome> outrosNomes = 
-        this.outroNomeParser((ArrayList<String>) map.getCollection("Outros nomes"));
+        this.outroNomeParser((LinkedList) map.get("Outros nomes"));
     
     String ordem = this.extractStringFromMap(map, "Ordem");
     
@@ -39,7 +41,7 @@ public class PlantDetailsBuilder {
     
     String familia = this.extractStringFromMap(map, "Família");
     
-    List<Origem> origem = this.origemParser((ArrayList<String>) map.getCollection("Origem"));
+    List<Origem> origem = this.origemParser((LinkedList<String>) map.get("Origem"));
     
     List<TipoPropagacao> propagacao = 
         this.propagacaoParser(this.extractStringFromMap(map, "Propagação"));
@@ -86,10 +88,10 @@ public class PlantDetailsBuilder {
   }
     
   private String extractStringFromMap(MultiValueMap<String, String> map, String key) {
-    return map.getCollection(key).toArray(new String[0])[0];
+    return map.get(key).toArray(new String[0])[0];
   }
   
-  private List<OutroNome> outroNomeParser(ArrayList<String> outrosNomes) {
+  private List<OutroNome> outroNomeParser(LinkedList<String> outrosNomes) {
     List<OutroNome> names = new ArrayList<>();
     if (!Objects.isNull(outrosNomes)) {
       outrosNomes.forEach(s -> {
@@ -108,7 +110,7 @@ public class PlantDetailsBuilder {
     return names;
   }
   
-  private List<Origem> origemParser(ArrayList<String> origem) {
+  private List<Origem> origemParser(LinkedList<String> origem) {
     List<Origem> names = new ArrayList<>();
     if (!Objects.isNull(origem)) {
       origem.forEach(s -> {

@@ -1,4 +1,4 @@
-package com.project.nakano.plantindex.jpa;
+ package com.project.nakano.plantindex.jpa;
 
 import java.util.EnumMap;
 import java.util.EnumSet;
