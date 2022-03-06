@@ -10,6 +10,7 @@ public class SearchResult extends NamedId {
     super();
     super.setId(id);
     this.setTitle(nome);
+    super.setNome(nome);
     this.desc = texto;
   }
 

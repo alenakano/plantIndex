@@ -12,11 +12,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = "com.project.nakano.plantindex.jpa",
+    basePackages = {"com.project.nakano.plantindex.jpa","com.project.nakano.plantindex.auth" },
     entityManagerFactoryRef = "jpaEntityManager",
     transactionManagerRef = "jpaTransactionManager")
 public class PersistenceJpaConfiguration {
@@ -47,7 +48,7 @@ public class PersistenceJpaConfiguration {
   public LocalContainerEntityManagerFactoryBean jpaEntityManager() {
     LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
     em.setDataSource(jpaDataSource());
-    em.setPackagesToScan(new String[] { "com.project.nakano.plantindex.jpa.model" });
+    em.setPackagesToScan(new String[] {"com.project.nakano.plantindex.jpa.model", "com.project.nakano.plantindex.auth"});
     
     HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
     em.setJpaVendorAdapter(vendorAdapter);
@@ -72,7 +73,6 @@ public class PersistenceJpaConfiguration {
     JpaTransactionManager transactionManager = new JpaTransactionManager();
     transactionManager.setEntityManagerFactory(jpaEntityManager().getObject());
     return transactionManager;
-  }
-    
+  }    
 }
 
