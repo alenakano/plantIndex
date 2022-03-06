@@ -1,5 +1,13 @@
 package com.project.nakano.plantindex.jpa;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+
+import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+
 import com.project.nakano.plantindex.jpa.model.Categoria;
 import com.project.nakano.plantindex.jpa.model.Origem;
 import com.project.nakano.plantindex.jpa.model.OutroNome;
@@ -8,13 +16,8 @@ import com.project.nakano.plantindex.jpa.model.TipoEstacoesAno;
 import com.project.nakano.plantindex.jpa.model.TipoIluminacao;
 import com.project.nakano.plantindex.jpa.model.TipoPropagacao;
 import com.project.nakano.plantindex.jpa.model.TipoRega;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
 
-import org.springframework.util.MultiValueMap;
-
+@Service
 public class PlantDetailsBuilder {
 
   PlantDetails setRecoveredPlantDetails(MultiValueMap<String, String> map) {
@@ -22,7 +25,7 @@ public class PlantDetailsBuilder {
     String nome = this.extractStringFromMap(map, "Nome popular");
 
     List<OutroNome> outrosNomes = 
-        this.outroNomeParser((LinkedList) map.get("Outros nomes"));
+        this.outroNomeParser((ArrayList) map.get("Outros nomes"));
     
     String ordem = this.extractStringFromMap(map, "Ordem");
     
@@ -41,7 +44,7 @@ public class PlantDetailsBuilder {
     
     String familia = this.extractStringFromMap(map, "Família");
     
-    List<Origem> origem = this.origemParser((LinkedList<String>) map.get("Origem"));
+    List<Origem> origem = this.origemParser((ArrayList<String>) map.get("Origem"));
     
     List<TipoPropagacao> propagacao = 
         this.propagacaoParser(this.extractStringFromMap(map, "Propagação"));
@@ -91,7 +94,7 @@ public class PlantDetailsBuilder {
     return map.get(key).toArray(new String[0])[0];
   }
   
-  private List<OutroNome> outroNomeParser(LinkedList<String> outrosNomes) {
+  private List<OutroNome> outroNomeParser(ArrayList<String> outrosNomes) {
     List<OutroNome> names = new ArrayList<>();
     if (!Objects.isNull(outrosNomes)) {
       outrosNomes.forEach(s -> {
@@ -110,7 +113,7 @@ public class PlantDetailsBuilder {
     return names;
   }
   
-  private List<Origem> origemParser(LinkedList<String> origem) {
+  private List<Origem> origemParser(ArrayList<String> origem) {
     List<Origem> names = new ArrayList<>();
     if (!Objects.isNull(origem)) {
       origem.forEach(s -> {

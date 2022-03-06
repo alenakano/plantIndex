@@ -40,6 +40,7 @@ public class PlantDetailsFinder extends MinhasPlantasData {
           + " script,"
           + " ins").remove();
       doc.select("div.Text").last().remove();
+      doc.select("strong:contains(clique aqui)").remove();
   
       // Selecionando dados da tabela de informação da planta
       Elements rowsA = doc.select("li.A");
