@@ -6,8 +6,8 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 
 import java.io.IOException;
+import java.util.HashMap;
 
-import org.apache.commons.collections4.map.MultiValueMap;
 import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.nodes.Document;
@@ -22,6 +22,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.MultiValueMap;
 
 @ExtendWith(MockitoExtension.class)
 class PlantDetailsFinderTest {
@@ -76,13 +78,13 @@ class PlantDetailsFinderTest {
 			Mockito.doReturn(connection).when(spyPlant).connect(Mockito.any());
 			
 			// WHEN
-			MultiValueMap<String, String> map = spyPlant.searchPlantDetails("/teste");
+		  MultiValueMap<String, String> map = spyPlant.searchPlantDetails("/teste");
 			
 			//THEN
-			MultiValueMap<String, String>  result = new MultiValueMap<> ();
-			result.put("teste", "teste2");
-			result.put("teste3", "teste4");
-			result.put("infos", "elements");
+			MultiValueMap<String, String>  result = CollectionUtils.toMultiValueMap(new HashMap<>());
+			result.add("teste", "teste2");
+			result.add("teste3", "teste4");
+			result.add("infos", "elements");
 			
 			assertThat(map).isEqualTo(result);
 		}

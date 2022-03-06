@@ -2,12 +2,15 @@ package com.project.nakano.plantindex.jpa;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.commons.collections4.map.MultiValueMap;
+import java.util.HashMap;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.MultiValueMap;
 
 import com.project.nakano.plantindex.jpa.model.PlantDetails;
 
@@ -21,27 +24,27 @@ class PlantDetailsBuilderTest {
 	
 	@BeforeEach
 	void setup() {
-		map = new MultiValueMap<>();
-		map.put("Outros nomes", "pimentão-comum");
-		map.put("Ordem", "Solanales");
-		map.put("Floração", "o ano todo");
-		map.put("Gênero", "Capsicum");
-		map.put("Nome popular", "pimentão");
-		map.put("Rega", "muita água");
-		map.put("Tamanho", "até 40 cm");
-		map.put("Perfumada", "não");
-		map.put("Tribo", "Capsiceae");
-		map.put("Família", "Solanacea");
-		map.put("Origem", "Américas");
-		map.put("Propagação", "muda");
-		map.put("Subfamília", "Solanoideae");
-		map.put("Categoria", "hortaliças");
-		map.put("Subtribo", "-");
-		map.put("Espécie", "Capiscum annuum");
-		map.put("Iluminação", "meia sombra sombra");
-		map.put("Plantio", "todo");
-		map.put("infos", "Teste");
-		map.put("Frutos", "comestíveis");
+		map = CollectionUtils.toMultiValueMap(new HashMap<>());
+		map.add("Outros nomes", "pimentão-comum");
+		map.add("Ordem", "Solanales");
+		map.add("Floração", "o ano todo");
+		map.add("Gênero", "Capsicum");
+		map.add("Nome popular", "pimentão");
+		map.add("Rega", "muita água");
+		map.add("Tamanho", "até 40 cm");
+		map.add("Perfumada", "não");
+		map.add("Tribo", "Capsiceae");
+		map.add("Família", "Solanacea");
+		map.add("Origem", "Américas");
+		map.add("Propagação", "muda");
+		map.add("Subfamília", "Solanoideae");
+		map.add("Categoria", "hortaliças");
+		map.add("Subtribo", "-");
+		map.add("Espécie", "Capiscum annuum");
+		map.add("Iluminação", "meia sombra sombra");
+		map.add("Plantio", "todo");
+		map.add("infos", "Teste");
+		map.add("Frutos", "comestíveis");
 		
 	}
 	

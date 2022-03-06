@@ -8,9 +8,9 @@ import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.collections4.map.MultiValueMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -24,6 +24,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.MultiValueMap;
 
 import com.project.nakano.plantindex.jpa.model.Categoria;
 import com.project.nakano.plantindex.jpa.model.Origem;
@@ -65,7 +67,7 @@ class SyncDatabaseServiceTest {
 	SyncDatabaseService syncDatabaseService;
 	
 	List<String> namesPlant = new ArrayList<>();
-	MultiValueMap<String, String> map = new MultiValueMap<String, String>();
+	MultiValueMap<String, String> map = CollectionUtils.toMultiValueMap(new HashMap<>());
 	PlantDetails plant = new PlantDetails();
 	
 	@BeforeEach
@@ -74,26 +76,26 @@ class SyncDatabaseServiceTest {
 		namesPlant.add("/pimentao/");
 		
 		//Adicionando resposta do html
-		map.put("Outros nomes", "pimentão-comum");
-		map.put("Ordem", "Solanales");
-		map.put("Floração", "o ano todo");
-		map.put("Gênero", "Capsicum");
-		map.put("Nome Popular", "pimentão");
-		map.put("Rega", "muita água");
-		map.put("Tamanho", "até 40 cm");
-		map.put("Perfumada", "não");
-		map.put("Tribo", "Capsiceae");
-		map.put("Família", "Solanacea");
-		map.put("Origem", "Américas");
-		map.put("Propagação", "por muda");
-		map.put("Subfamília", "Solanoideae");
-		map.put("Categoria", "hortaliças");
-		map.put("Subtribo", "-");
-		map.put("Espécie", "Capiscum annuum");
-		map.put("Iluminação", "meia sombra sombra");
-		map.put("Plantio", "o ano todo");
-		map.put("infos", "Teste");
-		map.put("Frutos", "comestíveis");
+		map.add("Outros nomes", "pimentão-comum");
+		map.add("Ordem", "Solanales");
+		map.add("Floração", "o ano todo");
+		map.add("Gênero", "Capsicum");
+		map.add("Nome Popular", "pimentão");
+		map.add("Rega", "muita água");
+		map.add("Tamanho", "até 40 cm");
+		map.add("Perfumada", "não");
+		map.add("Tribo", "Capsiceae");
+		map.add("Família", "Solanacea");
+		map.add("Origem", "Américas");
+		map.add("Propagação", "por muda");
+		map.add("Subfamília", "Solanoideae");
+		map.add("Categoria", "hortaliças");
+		map.add("Subtribo", "-");
+		map.add("Espécie", "Capiscum annuum");
+		map.add("Iluminação", "meia sombra sombra");
+		map.add("Plantio", "o ano todo");
+		map.add("infos", "Teste");
+		map.add("Frutos", "comestíveis");
 		
 		// Populando objeto
 		List<OutroNome> outro = new ArrayList<>();
