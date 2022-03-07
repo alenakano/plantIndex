@@ -17,24 +17,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 public class User implements UserDetails {
   private static final long serialVersionUID = 1L;
-  
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  
+
   private String name;
   private String email;
   private String password;
-  
-  /** 
-      Perfil é pedido pela interface UserDetails, que é as roles
-      de determinado usuário. Aqui atrelamos que um usuário pode 
-      ter diversos perfis e vice-versa (ManyToMany). Fetch Eager
-      para que o spring já carregue essa informação no carregamento 
-      da classe
-  **/
+
+  /**
+   * Perfil é pedido pela interface UserDetails, que é as roles de determinado
+   * usuário. Aqui atrelamos que um usuário pode ter diversos perfis e vice-versa
+   * (ManyToMany). Fetch Eager para que o spring já carregue essa informação no
+   * carregamento da classe
+   **/
   @ManyToMany(fetch = FetchType.EAGER)
   private List<Perfil> perfis = new ArrayList<>();
-  
 
   public String getName() {
     return name;
@@ -42,6 +41,10 @@ public class User implements UserDetails {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Long getId() {
+    return this.id;
   }
 
   public void setPassword(String password) {
@@ -56,7 +59,7 @@ public class User implements UserDetails {
     this.email = email;
   }
 
-  @Override 
+  @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return this.perfis;
   }
@@ -71,27 +74,26 @@ public class User implements UserDetails {
     return this.email;
   }
 
-  /**
-  Os métodos abaixos não foram propriamente tratados, e retornam 
-  true para que a aplicação funcione corretamente.
-  **/
-
-  @Override 
+  /*
+   * Os métodos abaixos não foram propriamente tratados, e retornam true para que
+   * a aplicação funcione corretamente.
+   */
+  @Override
   public boolean isAccountNonExpired() {
     return true;
   }
-  
-  @Override 
+
+  @Override
   public boolean isAccountNonLocked() {
     return true;
   }
-  
-  @Override 
+
+  @Override
   public boolean isCredentialsNonExpired() {
     return true;
   }
-  
-  @Override 
+
+  @Override
   public boolean isEnabled() {
     return true;
   }

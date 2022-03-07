@@ -1,20 +1,23 @@
 package com.project.nakano.plantindex.auth;
 
 public class TokenDTO {
-  private String token;
-  private String tipo;
 
-  public String getToken() {
-    return token;
+  public String token;
+  public String type;
+
+  public TokenDTO() {
   }
+
+  public TokenDTO(String token, String type) {
+    this.token = token;
+    this.type = type;
+  }
+
   public void setToken(String token) {
     this.token = token;
   }
-  public String getTipo() {
-    return tipo;
+
+  public void setType(String type) {
+    this.type = type;
   }
-  public void setTipo(String tipo) {
-    this.tipo = tipo;
-  }
-  
 }
