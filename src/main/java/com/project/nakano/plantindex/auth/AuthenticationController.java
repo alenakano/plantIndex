@@ -1,5 +1,6 @@
 package com.project.nakano.plantindex.auth;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class AuthenticationController {
   private AuthenticationManager authManager;
 
   @PostMapping
-  public ResponseEntity<TokenDTO> authenticate(@RequestBody Auth body) throws JOSEException, ParseException {
+  public ResponseEntity<TokenDTO> authenticate(@RequestBody Auth body) throws JOSEException, ParseException, IOException {
 
     UsernamePasswordAuthenticationToken authenticationData = body.convertToAuthenticationToken();
 
